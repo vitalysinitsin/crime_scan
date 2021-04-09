@@ -5,6 +5,8 @@ for 3 types of markers. Facility => Group => Equipment. With every click on
 the marker the cluster should expand to the next level. Additionally there 
 should be a button to zoom out to the previous level too.
 
+---------------------------------------------------------------------------------
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
