@@ -1,4 +1,4 @@
-Project to test out [@use-supercluster](https://github.com/leighhalliday/use-supercluster) and @google-maps-react functionality
+Project to test out [@use-supercluster](https://github.com/leighhalliday/use-supercluster) and [@google-map-react](https://github.com/google-map-react/google-map-react) functionality
 
 Initial idea is to make it possible to have 3 levels of waterfall clustering
 for 3 types of markers. Facility => Group => Equipment. With every click on 
