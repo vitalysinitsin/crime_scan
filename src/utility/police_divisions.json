@@ -1,0 +1,11 @@
+{
+  "name": "police_divisions",
+  "divisions_list": [
+    {
+      "name": "D53",
+      "lng": -79.415970,
+      "lat": 43.703018,
+      "address": "75 Eglinton Av. W., Toronto, ON , M4R 2G9"
+    }
+  ]
+}

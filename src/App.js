@@ -1,25 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import Map from './components/Map';
+import Navbar from 'react-bootstrap/Navbar';
+import Nav from 'react-bootstrap/Nav';
 
 function App() {
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Navbar bg='dark' variant='dark' expand='lg'>
+        <Navbar.Brand href="#home">Cluster Playground</Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav"/>
+        <Navbar.Collapse id="basic-navbar-nav" className='justify-content-end'>
+          <Nav>
+            <Nav.Link 
+              href="https://github.com/hungryvito/cluster_test"
+            >github</Nav.Link>
+            <Nav.Link 
+              href="https://github.com/google-map-react/google-map-react"
+            >google-map-react</Nav.Link>
+            <Nav.Link 
+              href="https://github.com/leighhalliday/use-supercluster"
+            >use-supercluster</Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
+      </Navbar>
+      <Map/>
     </div>
   );
 }
 
 export default App;
+
