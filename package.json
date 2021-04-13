@@ -2,11 +2,13 @@
   "name": "cluster_test",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://hungryvito.github.io/cluster_test/",
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.10",
     "@testing-library/react": "^11.2.6",
     "@testing-library/user-event": "^12.8.3",
     "bootstrap": "^4.6.0",
+    "gh-pages": "^3.1.0",
     "google-map-react": "^2.1.9",
     "react": "^16.14.0",
     "react-bootstrap": "^1.5.2",
@@ -19,7 +21,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
