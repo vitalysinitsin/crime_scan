@@ -6,6 +6,18 @@ expand to the next level. When children are displayed, they must be
 connected with polylines to represent grouping. Additionally there should 
 be a button to zoom out to the previous level too.
 
+I aim to have two uses for the app.
+
+First one would use static data with Facility(Park, Building), 
+Group(floors, rooms) and finally Kiosk as a child marker.
+
+Second one would use Toronto Police Data Portal api for Major Crime Indicators.
+Parent markers would be police divisions of Greater Toronto Area, 
+MCI(Major Crime Indicator) would be a group e.g. robbery, theft; and crime 
+itself will be the children markers.
+
+I will start with static use with facilities and will expand to the Police API.
+
 ---------------------------------------------------------------------------------
 
 # Getting Started with Create React App
