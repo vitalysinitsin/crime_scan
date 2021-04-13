@@ -1,5 +1,59 @@
 {
   "name": "facilities",
-  "address": "44 Four Winds Drive, North York, ON, Canada",
-  "groups": []
+  "facilities": [
+    {
+      "name": "Home",
+      "address": "44 Four Winds Drive, North York, ON, Canada",
+      "groups": [
+        {
+          "facility_id": 37,
+          "id": 37,
+          "name": "Big",
+          "equipments": [
+            {
+              "city": "York",
+              "group_id": 37,
+              "id": 299,
+              "lat": 43.763456,
+              "lng": -79.491326,
+              "model": "IAQ",
+              "name": "sims3Test2",
+              "serial_number": "AQ1338",
+              "status": "no data",
+              "wind_direction": 105,
+              "wind_speed": 5
+            },
+            {
+              "city": "Stouffville",
+              "group_id": 37,
+              "id": 298,
+              "lat": 43.766525,
+              "lng": -79.496475,
+              "model": "IAQ",
+              "name": "sims3Test1",
+              "serial_number": "AQ1337",
+              "status": "no data",
+              "wind_direction": 105,
+              "wind_speed": 5
+            }
+          ]
+        }
+      ],
+      "company_id": 1,
+      "id": 37,
+      "lat": 43.7647599,
+      "lng": -79.4959688,
+      "status": "no data"
+    },
+    {
+      "name": "Gardens",
+      "address": "2901 Yonge St, Toronto, ON M4N 3N8, Canada",
+      "groups": [],
+      "company_id": 1,
+      "id": 38,
+      "lat": 43.7215519,
+      "lng": -79.401197,
+      "status": "online"
+    }
+  ]
 }

@@ -1,25 +1,27 @@
 import React from 'react';
 
-export default function Marker({ text }) {
+export default function Marker({ text, onClick, bg}) {
   const style = {
-    'backgroundColor': 'rgb(50,50,50)',
+    'tabIndex': '0',
+    'backgroundColor': bg,
     'color': 'white',
     'height': '2.5rem',
     'width': '2.5rem',
-    'min-width': 'max-content',
+    'minWidth': 'max-content',
     'borderRadius': '50%',
     'display': 'flex',
     'alignItems': 'center',
     'justifyContent': 'center',
     'cursor': 'pointer',
-    'border': '3px solid grey'
+    'border': '3px solid grey',
   };
 
   return(
     <div 
+      onClick={onClick}
       style={style}
     >
-      <span>{text}</span>
+      {text}
     </div>
   )
 }
