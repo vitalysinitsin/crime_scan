@@ -1,21 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import GoogleMapReact from 'google-map-react';
+import Marker from './Marker';
+import { facilities } from '../utility/facilities';
+//import { divisions_list } from '../utility/police_divisions';
 //import build_crimes_query from '../utility/build_crimes_query';
 //import { useFetch } from '../utility/useFetch';
-import Marker from './Marker';
-//import { divisions_list } from '../utility/police_divisions';
-import { facilities } from '../utility/facilities';
 
 export default function Map() {
-  const defaultCenter = { lat: 43.76681, lng: -79.41636 };
+  const defaultCenter = { lat: 43.76681, lng: -79.41636 }; 
   const defaultZoom = 12;
-//  const [queryFilter, setQueryFilter] = useState({ 'reportedyear': '2020' });
-//  const crimes_query = build_crimes_query(queryFilter);
-//  const { data: points, loading } = useFetch(crimes_query);
   const [
     selected_facility_groups, 
     set_selected_facility_groups
   ] = useState([]);
+  const mapRef = useRef();
+//  const [queryFilter, setQueryFilter] = useState({ 'reportedyear': '2020' });
+//  const crimes_query = build_crimes_query(queryFilter);
+//  const { data: points, loading } = useFetch(crimes_query);
 
   return(
     <GoogleMapReact 
@@ -23,6 +24,9 @@ export default function Map() {
       defaultCenter={defaultCenter}
       defaultZoom={defaultZoom}
       yesIWantToUseGoogleMapApiInternals
+      onGoogleApiLoaded={(map) => {
+        mapRef.current = map;
+      }}
       onClick={(e) => {
         console.log('mapclick\n','lat: '+e.lat, 'lng :'+e.lng)
         set_selected_facility_groups([]); }}
