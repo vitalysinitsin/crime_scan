@@ -1,3 +1,5 @@
+[DEMO](https://hungryvito.github.io/cluster_test/)
+
 Project to test out [@use-supercluster](https://github.com/leighhalliday/use-supercluster) and [@google-map-react](https://github.com/google-map-react/google-map-react) functionality
 
 Initial idea is to make it possible to have 2 levels of waterfall clustering 
