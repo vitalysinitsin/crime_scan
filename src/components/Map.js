@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import GoogleMapReact from 'google-map-react';
 import Marker from './Marker';
 import { facilities } from '../utility/facilities';
@@ -8,15 +8,58 @@ import { facilities } from '../utility/facilities';
 
 export default function Map() {
   const defaultCenter = { lat: 43.76681, lng: -79.41636 }; 
-  const defaultZoom = 12;
+  const defaultZoom = 10;
   const [
-    selected_facility_groups, 
-    set_selected_facility_groups
-  ] = useState([]);
-  const mapRef = useRef();
+    selected_facility, 
+    set_selected_facility
+  ] = useState({});
+  const map_ref = useRef();
+  const maps_ref = useRef();
+  //const [bounds, set_bounds] = useState({});
+
 //  const [queryFilter, setQueryFilter] = useState({ 'reportedyear': '2020' });
 //  const crimes_query = build_crimes_query(queryFilter);
 //  const { data: points, loading } = useFetch(crimes_query);
+  const reset_bounds = () => {
+    if (!facilities.length) return;
+
+    const new_bounds = new maps_ref.current.LatLngBounds();
+
+    for (let i in facilities) {
+      new_bounds.extend({ lat:  facilities[i].lat, lng: facilities[i].lng });
+    }
+   // set_bounds(new_bounds);
+    map_ref.current.fitBounds(new_bounds);
+  }
+
+  const fit_bounds_to_show_equipments = ( equipments ) => {
+    if (!equipments?.length) return;
+
+    const new_bounds = new maps_ref.current.LatLngBounds();
+
+    for (let i in equipments) {
+      new_bounds.extend({ lat: equipments[i].lat, lng: equipments[i].lng })
+    }
+
+    map_ref.current.fitBounds(new_bounds);
+  }
+
+  // Returns all nested equipments from the facility=>group tree
+  const get_all_markers_from_selected_facility = ( ) => {
+    if (!selected_facility.groups) return;
+
+    return selected_facility.groups.reduce(
+      (previous, current) => {
+        previous = previous.equipments ?? previous;
+
+        return previous.concat(current.equipments);
+      }
+    );
+  }
+
+  useEffect(()=>{
+    fit_bounds_to_show_equipments(get_all_markers_from_selected_facility());
+  },[selected_facility]);
 
   return(
     <GoogleMapReact 
@@ -24,12 +67,16 @@ export default function Map() {
       defaultCenter={defaultCenter}
       defaultZoom={defaultZoom}
       yesIWantToUseGoogleMapApiInternals
-      onGoogleApiLoaded={(map) => {
-        mapRef.current = map;
+      onGoogleApiLoaded={({ map, maps }) => {
+        map_ref.current = map;
+        maps_ref.current = maps;
+        reset_bounds();
       }}
       onClick={(e) => {
         console.log('mapclick\n','lat: '+e.lat, 'lng :'+e.lng)
-        set_selected_facility_groups([]); }}
+        set_selected_facility([]); 
+        reset_bounds();
+      }}
     >
       {
         // ** police crimes
@@ -57,14 +104,17 @@ export default function Map() {
         //  ) 
         //})
         // ** facilities
-        facilities.map(facility=> {
+        facilities.map(facility => {
+
+          //bounds.extend({ lat: facility.lat, lng: facility.lng });
+
           return(
             <Marker
               className='mapMarker'
               onClick={(e)=>{
                 e.stopPropagation();
-                console.log(facility.groups);
-                set_selected_facility_groups(facility.groups)
+                set_selected_facility(facility)
+                //set_bounds(new maps_ref.current.LatLngBounds());
               }}
               key={facility.id}
               lat={facility.lat}
@@ -76,11 +126,12 @@ export default function Map() {
         })
       }
       {
-        selected_facility_groups.length && 
-        selected_facility_groups.map( group => {
-          if (!group.equipments.length) return;
-          
-          return group.equipments.map( equipment => {
+        selected_facility.groups?.map( group => {
+          if (!group.equipments.length) return null;
+
+          const equipment_markers = group.equipments.map( equipment => {
+            //bounds.extend({ lat: equipment.lat, lng: equipment.lng });
+
             return(
               <Marker
                 key={equipment.id}
@@ -91,6 +142,10 @@ export default function Map() {
               />
             )
           });
+
+          //map_ref.current.fitBounds(bounds);
+
+          return equipment_markers;
         })
       }
     </GoogleMapReact>

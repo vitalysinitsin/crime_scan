@@ -12,8 +12,6 @@ export default function Marker({ text, onClick, bg}) {
     'display': 'flex',
     'alignItems': 'center',
     'justifyContent': 'center',
-    'cursor': 'pointer',
-    'border': '3px solid grey',
   };
 
   return(

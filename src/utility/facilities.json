@@ -37,6 +37,72 @@
               "wind_speed": 5
             }
           ]
+        },
+        {
+          "facility_id": 37,
+          "id": 39,
+          "name": "Medium",
+          "equipments": [
+            {
+              "city": "York",
+              "group_id": 39,
+              "id": 295,
+              "lat": 43.750445,
+              "lng": -79.514586,
+              "model": "IAQ",
+              "name": "sims3mediumtesttt",
+              "serial_number": "AQ1334",
+              "status": "no data",
+              "wind_direction": 105,
+              "wind_speed": 5
+            },
+            {
+              "city": "York",
+              "group_id": 39,
+              "id": 296,
+              "lat": 43.779826,
+              "lng": -79.525143,
+              "model": "IAQ",
+              "name": "sims3mediumtesttt1",
+              "serial_number": "AQ1335",
+              "status": "no data",
+              "wind_direction": 105,
+              "wind_speed": 5
+            }
+          ]
+        },
+        {
+          "facility_id": 37,
+          "id": 32,
+          "name": "Small",
+          "equipments": [
+            {
+              "city": "York",
+              "group_id": 32,
+              "id": 290,
+              "lat": 43.746167,
+              "lng": -79.468238,
+              "model": "IAQ",
+              "name": "airport",
+              "serial_number": "AQ1331",
+              "status": "no data",
+              "wind_direction": 105,
+              "wind_speed": 5
+            },
+            {
+              "city": "York",
+              "group_id": 32,
+              "id": 291,
+              "lat": 43.751499,
+              "lng": -79.458024,
+              "model": "IAQ",
+              "name": "metroByAirport",
+              "serial_number": "AQ1332",
+              "status": "no data",
+              "wind_direction": 105,
+              "wind_speed": 5
+            }
+          ]
         }
       ],
       "company_id": 1,
