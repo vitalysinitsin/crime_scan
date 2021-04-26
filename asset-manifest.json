@@ -1,26 +1,26 @@
 {
   "files": {
     "main.css": "/cluster_test/static/css/main.dc83e574.chunk.css",
-    "main.js": "/cluster_test/static/js/main.f6b46f49.chunk.js",
-    "main.js.map": "/cluster_test/static/js/main.f6b46f49.chunk.js.map",
-    "runtime-main.js": "/cluster_test/static/js/runtime-main.3ace8fb7.js",
-    "runtime-main.js.map": "/cluster_test/static/js/runtime-main.3ace8fb7.js.map",
+    "main.js": "/cluster_test/static/js/main.37bb1b69.chunk.js",
+    "main.js.map": "/cluster_test/static/js/main.37bb1b69.chunk.js.map",
+    "runtime-main.js": "/cluster_test/static/js/runtime-main.3aa5de8f.js",
+    "runtime-main.js.map": "/cluster_test/static/js/runtime-main.3aa5de8f.js.map",
     "static/css/2.4c97ca4f.chunk.css": "/cluster_test/static/css/2.4c97ca4f.chunk.css",
-    "static/js/2.4b9fecce.chunk.js": "/cluster_test/static/js/2.4b9fecce.chunk.js",
-    "static/js/2.4b9fecce.chunk.js.map": "/cluster_test/static/js/2.4b9fecce.chunk.js.map",
-    "static/js/3.fe5d8483.chunk.js": "/cluster_test/static/js/3.fe5d8483.chunk.js",
-    "static/js/3.fe5d8483.chunk.js.map": "/cluster_test/static/js/3.fe5d8483.chunk.js.map",
+    "static/js/2.b989d3ca.chunk.js": "/cluster_test/static/js/2.b989d3ca.chunk.js",
+    "static/js/2.b989d3ca.chunk.js.map": "/cluster_test/static/js/2.b989d3ca.chunk.js.map",
+    "static/js/3.c802720c.chunk.js": "/cluster_test/static/js/3.c802720c.chunk.js",
+    "static/js/3.c802720c.chunk.js.map": "/cluster_test/static/js/3.c802720c.chunk.js.map",
     "index.html": "/cluster_test/index.html",
     "static/css/2.4c97ca4f.chunk.css.map": "/cluster_test/static/css/2.4c97ca4f.chunk.css.map",
     "static/css/main.dc83e574.chunk.css.map": "/cluster_test/static/css/main.dc83e574.chunk.css.map",
-    "static/js/2.4b9fecce.chunk.js.LICENSE.txt": "/cluster_test/static/js/2.4b9fecce.chunk.js.LICENSE.txt",
-    "static/js/main.f6b46f49.chunk.js.LICENSE.txt": "/cluster_test/static/js/main.f6b46f49.chunk.js.LICENSE.txt"
+    "static/js/2.b989d3ca.chunk.js.LICENSE.txt": "/cluster_test/static/js/2.b989d3ca.chunk.js.LICENSE.txt",
+    "static/js/main.37bb1b69.chunk.js.LICENSE.txt": "/cluster_test/static/js/main.37bb1b69.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.3ace8fb7.js",
+    "static/js/runtime-main.3aa5de8f.js",
     "static/css/2.4c97ca4f.chunk.css",
-    "static/js/2.4b9fecce.chunk.js",
+    "static/js/2.b989d3ca.chunk.js",
     "static/css/main.dc83e574.chunk.css",
-    "static/js/main.f6b46f49.chunk.js"
+    "static/js/main.37bb1b69.chunk.js"
   ]
 }
