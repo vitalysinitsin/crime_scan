@@ -9,9 +9,14 @@ export const useFetch = (url, options) => {
 
       try {
         const response = await fetch(url, options);
-        const json = await response.json();
-        set_state({ data: json, loading: false });
-        console.log(url, json);
+        if (response.ok) {
+            const text = await response.text();
+            const json = JSON.parse(
+              text.slice(text.indexOf('"') + 1, text.lastIndexOf('"'))
+            );
+            set_state({ data: json, loading: false });
+            console.log(url, response, json);
+        }
       } catch(error) { 
         console.log(url, error);
       }
@@ -21,3 +26,4 @@ export const useFetch = (url, options) => {
   
   return state;
 }
+

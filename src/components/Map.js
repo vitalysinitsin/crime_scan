@@ -4,7 +4,7 @@ import Marker from './Marker';
 import { facilities } from '../utility/facilities';
 //import { divisions_list } from '../utility/police_divisions';
 //import build_crimes_query from '../utility/build_crimes_query';
-//import { useFetch } from '../utility/useFetch';
+import { useFetch } from '../utility/useFetch';
 
 export default function Map() {
   const defaultCenter = { lat: 43.76681, lng: -79.41636 }; 
@@ -20,6 +20,8 @@ export default function Map() {
 //  const [queryFilter, setQueryFilter] = useState({ 'reportedyear': '2020' });
 //  const crimes_query = build_crimes_query(queryFilter);
 //  const { data: points, loading } = useFetch(crimes_query);
+  const url = 'https://online.purenviro.com/api_getModel.php?ui=api_demo_user&p=xxxc57a988991dcc6a13deed3dd6e3024db97a5f2a8&t=2020-11-18+09:56'
+  const { data: tomsPoints, loading } = useFetch(url);
   const reset_bounds = () => {
     if (!facilities.length) return;
 
@@ -32,22 +34,13 @@ export default function Map() {
     map_ref.current.fitBounds(new_bounds);
   }
 
-  const fit_bounds_to_show_equipments = ( equipments ) => {
-    if (!equipments?.length) return;
-
-    const new_bounds = new maps_ref.current.LatLngBounds();
-
-    for (let i in equipments) {
-      new_bounds.extend({ lat: equipments[i].lat, lng: equipments[i].lng })
-    }
-
-    map_ref.current.fitBounds(new_bounds);
-  }
-
   // Returns all nested equipments from the facility=>group tree
   const get_all_markers_from_selected_facility = ( ) => {
-    if (!selected_facility.groups) return;
+    if (!selected_facility.groups || !selected_facility.groups.length ) {
+      return [];
+    }
 
+    console.log(selected_facility);
     return selected_facility.groups.reduce(
       (previous, current) => {
         previous = previous.equipments ?? previous;
@@ -58,8 +51,26 @@ export default function Map() {
   }
 
   useEffect(()=>{
-    fit_bounds_to_show_equipments(get_all_markers_from_selected_facility());
+    const fit_bounds_to_show_equipments = () => {
+      const equipments = get_all_markers_from_selected_facility();
+
+      if (!equipments?.length) return;
+
+      const new_bounds = new maps_ref.current.LatLngBounds();
+
+      for (let i in equipments) {
+        new_bounds.extend({ lat: equipments[i].lat, lng: equipments[i].lng })
+      }
+
+      map_ref.current.fitBounds(new_bounds);
+    }
+
+    fit_bounds_to_show_equipments();
   },[selected_facility]);
+
+  const build_heatmap = () => {
+    
+  }
 
   return(
     <GoogleMapReact 
@@ -72,9 +83,10 @@ export default function Map() {
         maps_ref.current = maps;
         reset_bounds();
       }}
+      heatmap={!loading ? build_heatmap : {}}
       onClick={(e) => {
         console.log('mapclick\n','lat: '+e.lat, 'lng :'+e.lng)
-        set_selected_facility([]); 
+        set_selected_facility({}); 
         reset_bounds();
       }}
     >
@@ -134,6 +146,7 @@ export default function Map() {
 
             return(
               <Marker
+                onClick={(e)=> {e.stopPropagation()}}
                 key={equipment.id}
                 lat={equipment.lat}
                 lng={equipment.lng}
