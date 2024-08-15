@@ -70,7 +70,7 @@ export default function Map() {
 
   return (
     <GoogleMapReact
-      bootstrapURLKeys={{ key: "AIzaSyCoMeZ8bHHD1zQIFSslht_znET2EEyTK0s" }}
+      bootstrapURLKeys={{ key: "AIzaSyBF1Ft2aH0JXRxK2GAawdhBsyW7r8yyIdA" }}
       defaultCenter={defaultCenter}
       defaultZoom={defaultZoom}
       yesIWantToUseGoogleMapApiInternals
