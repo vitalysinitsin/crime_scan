@@ -114,7 +114,107 @@
     {
       "name": "Gardens",
       "address": "2901 Yonge St, Toronto, ON M4N 3N8, Canada",
-      "groups": [],
+      "groups": [
+        {
+          "facility_id": 37,
+          "id": 37,
+          "name": "Big",
+          "equipments": [
+            {
+              "city": "York",
+              "group_id": 37,
+              "id": 299,
+              "lat": 43.74071296628024,
+              "lng": -79.36999060082634,
+              "model": "IAQ",
+              "name": "sims3Test2",
+              "serial_number": "AQ1338",
+              "status": "no data",
+              "wind_direction": 105,
+              "wind_speed": 5
+            },
+            {
+              "city": "Stouffville",
+              "group_id": 37,
+              "id": 298,
+              "lat": 43.723890583950876,
+              "lng": -79.40621073070913,
+              "model": "IAQ",
+              "name": "sims3Test1",
+              "serial_number": "AQ1337",
+              "status": "no data",
+              "wind_direction": 105,
+              "wind_speed": 5
+            }
+          ]
+        },
+        {
+          "facility_id": 37,
+          "id": 39,
+          "name": "Medium",
+          "equipments": [
+            {
+              "city": "York",
+              "group_id": 39,
+              "id": 295,
+              "lat": 43.73529715837799,
+              "lng": -79.3969521629663,
+              "model": "IAQ",
+              "name": "sims3mediumtesttt",
+              "serial_number": "AQ1334",
+              "status": "no data",
+              "wind_direction": 105,
+              "wind_speed": 5
+            },
+            {
+              "city": "York",
+              "group_id": 39,
+              "id": 296,
+              "lat": 43.712267279009865,
+              "lng": -79.40716847786908,
+              "model": "IAQ",
+              "name": "sims3mediumtesttt1",
+              "serial_number": "AQ1335",
+              "status": "no data",
+              "wind_direction": 105,
+              "wind_speed": 5
+            }
+          ]
+        },
+        {
+          "facility_id": 37,
+          "id": 32,
+          "name": "Small",
+          "equipments": [
+            {
+              "city": "York",
+              "group_id": 32,
+              "id": 290,
+              "lat": 43.72118884726048,
+              "lng": -79.36332500145734,
+              "model": "IAQ",
+              "name": "airport",
+              "serial_number": "AQ1331",
+              "status": "no data",
+              "wind_direction": 105,
+              "wind_speed": 5
+            },
+            {
+              "city": "York",
+              "group_id": 32,
+              "id": 291,
+              "lat": 43.70170613171446,
+              "lng": -79.37498542494555,
+              "model": "IAQ",
+              "name": "metroByAirport",
+              "serial_number": "AQ1332",
+              "status": "no data",
+              "wind_direction": 105,
+              "wind_speed": 5
+            }
+          ]
+        }
+      ],
       "company_id": 1,
       "id": 38,
       "lat": 43.7215519,
