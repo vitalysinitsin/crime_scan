@@ -1,1 +1,0 @@
-//!loading && points.features.length &&

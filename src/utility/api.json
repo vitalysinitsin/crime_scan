@@ -1,5 +1,0 @@
-{
-  "base_url": "https://services.arcgis.com/S9th0jAJ7bqgIRjw/arcgis/rest/services/Major_Crime_Indicators/FeatureServer/0/query?where=1%3D1&outFields=Index_,event_unique_id,Division,occurrencedate,reporteddate,premises_type,ucr_ext,offence,occurrenceyear,MCI,Hood_ID,Neighbourhood,Long,Lat,ObjectId,ucr_code&outSR=4326&f=json",
-  "default": "https://services.arcgis.com/S9th0jAJ7bqgIRjw/arcgis/rest/services/Major_Crime_Indicators/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&f=json",
-  "year2020": "https://services.arcgis.com/S9th0jAJ7bqgIRjw/arcgis/rest/services/Major_Crime_Indicators/FeatureServer/0/query?where=reportedyear%20%3D%202020%20AND%20Division%20%3D%20'D53'%20AND%20reportedmonth%20%3D%20'DECEMBER'&outFields=*&outSR=4326&f=json"
-}
