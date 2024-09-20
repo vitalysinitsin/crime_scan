@@ -7,9 +7,8 @@ Crime Scan started as a project to improve the default map local police websites
 
 I also needed a real-life application for the tools I wanted to work on: [@use-supercluster](https://github.com/leighhalliday/use-supercluster) and [@google-map-react](https://github.com/google-map-react/google-map-react).
 
-So here it is.
+</br>
+*DISCLAIMER* 
 
-*DISCLAIMER*
 At the moment the demo shows the static data I simulated based on the [Toronto Police's Major Crime Indicators API](https://data.torontopolice.on.ca/datasets/TorontoPS::major-crime-indicators-open-data/about). 
-
 The initial plan is to integrate the API with a year of data, division grouping and crime type markers.
