@@ -2,7 +2,7 @@
   "name": "cluster_test",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://hungryvito.github.io/cluster_test/",
+  "homepage": "https://hungryvito.github.io/crime_scan/",
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.10",
     "@testing-library/react": "^11.2.6",
