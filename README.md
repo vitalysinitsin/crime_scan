@@ -1,21 +1,14 @@
-[DEMO](https://hungryvito.github.io/cluster_test/)
+[DEMO](https://hungryvito.github.io/crime_scan/)
 
-Project to test out [@use-supercluster](https://github.com/leighhalliday/use-supercluster) and [@google-map-react](https://github.com/google-map-react/google-map-react) functionality
+Crime Scan is a project to improve the default map local police websites provide in order to better visualize the crime level situtation in the area. Two use cases could be improved:
 
-Initial idea is to make it possible to have 2 levels of waterfall clustering 
-for 2 types of markers. With every click on the marker, the parent should 
-expand to the next level. When children are displayed, they must be connected 
-with polylines to represent grouping. Additionally, there should be a button 
-to zoom out to the previous level too.
+1. The markers based by type overlap, resulting in less violent crime covering everything else (e.g. car theft type overlaps violent crime types).
+2. The markers of the only type displayed overlap each other, making it harder to figure out the level of crime density in the neighbourhood.
 
-I aim to have two uses for the app.
+I also needed a real-life application for the tools I wanted to work on: [@use-supercluster](https://github.com/leighhalliday/use-supercluster) and [@google-map-react](https://github.com/google-map-react/google-map-react).
 
-The first one would use static data with Facility(Park, Building), 
-Group(floors, rooms), and finally Kiosk as a child marker.
+</br>
+*DISCLAIMER* 
 
-The second one would use the Toronto Police Data Portal API for Major Crime 
-Indicators. Parent markers would be police divisions of Greater Toronto Area, 
-MCI(Major Crime Indicator) would be a group e.g. robbery, theft; and the 
-crime itself will be the children markers.
-
-I will start with static use with facilities and will expand to the Police API.
+At the moment the demo shows the static data I simulated based on the [Toronto Police's Major Crime Indicators API](https://data.torontopolice.on.ca/datasets/TorontoPS::major-crime-indicators-open-data/about). 
+The initial plan is to integrate the API with a year of data, division grouping and crime type markers.
