@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/cluster_test/static/css/main.6f679599.css",
-    "main.js": "/cluster_test/static/js/main.5b6e590d.js",
-    "static/js/453.2485bba1.chunk.js": "/cluster_test/static/js/453.2485bba1.chunk.js",
-    "index.html": "/cluster_test/index.html",
-    "main.6f679599.css.map": "/cluster_test/static/css/main.6f679599.css.map",
-    "main.5b6e590d.js.map": "/cluster_test/static/js/main.5b6e590d.js.map",
-    "453.2485bba1.chunk.js.map": "/cluster_test/static/js/453.2485bba1.chunk.js.map"
+    "main.css": "/crime_scan/static/css/main.6f679599.css",
+    "main.js": "/crime_scan/static/js/main.bd5aa4f6.js",
+    "static/js/453.2485bba1.chunk.js": "/crime_scan/static/js/453.2485bba1.chunk.js",
+    "index.html": "/crime_scan/index.html",
+    "main.6f679599.css.map": "/crime_scan/static/css/main.6f679599.css.map",
+    "main.bd5aa4f6.js.map": "/crime_scan/static/js/main.bd5aa4f6.js.map",
+    "453.2485bba1.chunk.js.map": "/crime_scan/static/js/453.2485bba1.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.6f679599.css",
-    "static/js/main.5b6e590d.js"
+    "static/js/main.bd5aa4f6.js"
   ]
 }
