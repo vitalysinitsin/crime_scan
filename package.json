@@ -10,6 +10,7 @@
     "bootstrap": "^5.3.3",
     "gh-pages": "^6.1.1",
     "google-map-react": "^2.1.9",
+    "ol": "^10.2.0",
     "react": "^16.14.0",
     "react-app-polyfill": "^2.0.0",
     "react-bootstrap": "^1.5.2",
