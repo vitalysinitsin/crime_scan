@@ -5,8 +5,6 @@ Crime Scan is a project to improve the default map local police websites provide
 1. The markers based by type overlap, resulting in less violent crime covering everything else (e.g. car theft type overlaps violent crime types).
 2. The markers of the only type displayed overlap each other, making it harder to figure out the level of crime density in the neighbourhood.
 
-I also needed a real-life application for the tools I wanted to work on: [@use-supercluster](https://github.com/leighhalliday/use-supercluster) and [@google-map-react](https://github.com/google-map-react/google-map-react).
-
 </br>
 *DISCLAIMER* 
 
