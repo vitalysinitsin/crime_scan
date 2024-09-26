@@ -10,25 +10,34 @@ import { Point } from "ol/geom";
 import Feature from "ol/Feature";
 import TileLayer from "ol/layer/Tile";
 import Pin from "../assets/pin.svg";
+import usePaginatedQuery from "../utility/paginatedQuery";
 
 const DEFAULT_CENTER = fromLonLat([-79.41636, 43.76681]);
 
 const OlMap = () => {
   const mapRef = useRef(null);
 
+  // pull features
+  const options = {
+    where: "OCC_YEAR = 2023",
+  };
+  const paginatedData = usePaginatedQuery(options);
+
   useEffect(() => {
     if (!mapRef.current) return;
 
+    // map init
     const mapConfig = new Map({
       view: new View({ center: DEFAULT_CENTER, zoom: 11 }),
       layers: [new TileLayer({ source: new OSM() })],
     });
 
+    // vector layer for markers
     const vectorSource = new Vector();
     const vectorLayer = new VectorLayer({ source: vectorSource });
 
+    // features aka markers
     const markers = [{ lon: -79.41636, lat: 43.76681, name: "TO" }];
-
     const markerStyle = new Style({
       image: new Icon({
         anchor: [0.5, 1],
@@ -51,6 +60,7 @@ const OlMap = () => {
 
     vectorSource.addFeatures(features);
 
+    // link map to the ref
     mapConfig.setTarget(mapRef.current);
     return () => mapConfig.setTarget("");
   }, []);

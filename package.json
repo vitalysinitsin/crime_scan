@@ -4,6 +4,8 @@
   "private": true,
   "homepage": "https://hungryvito.github.io/crime_scan/",
   "dependencies": {
+    "@esri/arcgis-rest-feature-service": "^4.0.6",
+    "@esri/arcgis-rest-request": "^4.2.3",
     "@testing-library/jest-dom": "^5.11.10",
     "@testing-library/react": "^11.2.6",
     "@testing-library/user-event": "^12.8.3",
