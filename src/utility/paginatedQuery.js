@@ -5,44 +5,58 @@ const TORONTO_MCI_ESRI_SERVICE_URL =
   "https://services.arcgis.com/S9th0jAJ7bqgIRjw/arcgis/rest/services/Major_Crime_Indicators_Open_Data/FeatureServer/0";
 
 const usePaginatedQuery = ({ where }) => {
-  const [paginatedFeatures, setPaginatedFeatures] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [resultOffset, setNewResultOffset] = useState(0);
-  const [transferLimitExceeded, setTransferLimitExceeded] = useState(true);
+  const [queryState, setQueryState] = useState({
+    paginatedFeaturesObj: {},
+    resultOffset: 0,
+    loading: true,
+  });
+  console.log({ queryState });
 
   const loadFeaturePageFromServer = useCallback(async () => {
+    if (!queryState.loading) {
+      return;
+    }
+
     const addAPage = (page) => {
       if (!page) {
         return;
       }
 
-      setPaginatedFeatures([...paginatedFeatures, page]);
+      setQueryState({
+        paginatedFeaturesObj: {
+          ...page,
+          features: queryState.paginatedFeaturesObj?.features
+            ? [...queryState.paginatedFeaturesObj.features, ...page.features]
+            : page.features,
+        },
+        resultOffset: queryState.resultOffset + page.features.length,
+        loading: page.exceededTransferLimit,
+      });
     };
 
-    // end of all paging
-    console.log("initialLimit", transferLimitExceeded);
-    if (transferLimitExceeded === false) {
-      setLoading(false);
-      return;
-    }
-
-    console.log(resultOffset);
     const json = await queryFeatures({
       url: TORONTO_MCI_ESRI_SERVICE_URL,
       where,
-      resultOffset,
+      resultOffset: queryState.resultOffset,
     });
-    console.log("response", json);
     addAPage(json);
-    setNewResultOffset(resultOffset + json.features.length);
-    setTransferLimitExceeded(json.tranferLimitExceeded);
-  }, [where, resultOffset, transferLimitExceeded, setPaginatedFeatures]);
+  }, [
+    where,
+    queryState.loading,
+    queryState.resultOffset,
+    queryState.paginatedFeaturesObj,
+    setQueryState,
+  ]);
 
   useEffect(() => {
     loadFeaturePageFromServer();
   }, [loadFeaturePageFromServer]);
 
-  return { data: paginatedFeatures, loading };
+  console.log(queryState.resultOffset);
+  return {
+    yearlyFeaturesObj: queryState.paginatedFeaturesObj,
+    loading: queryState.loading,
+  };
 };
 
 export default usePaginatedQuery;
