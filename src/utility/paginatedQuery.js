@@ -10,7 +10,6 @@ const usePaginatedQuery = ({ where }) => {
     resultOffset: 0,
     loading: true,
   });
-  console.log({ queryState });
 
   const loadFeaturePageFromServer = useCallback(async () => {
     if (!queryState.loading) {
@@ -52,7 +51,6 @@ const usePaginatedQuery = ({ where }) => {
     loadFeaturePageFromServer();
   }, [loadFeaturePageFromServer]);
 
-  console.log(queryState.resultOffset);
   return {
     yearlyFeaturesObj: queryState.paginatedFeaturesObj,
     loading: queryState.loading,

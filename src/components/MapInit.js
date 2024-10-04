@@ -13,7 +13,7 @@ import Pin from "../assets/pin.svg";
 
 const DEFAULT_CENTER = fromLonLat([-79.41636, 43.76681]);
 
-const OlMap = ({ yearlyMarkersObj }) => {
+const MapInit = ({ yearlyFeaturesObj, loading }) => {
   const mapRef = useRef(null);
 
   useEffect(() => {
@@ -25,13 +25,12 @@ const OlMap = ({ yearlyMarkersObj }) => {
       layers: [new TileLayer({ source: new OSM() })],
     });
 
+    if (loading) return;
+
     // vector layer for markers
     const vectorSource = new Vector();
     const vectorLayer = new VectorLayer({ source: vectorSource });
 
-    // features/markers
-    const markers = [{ lon: -79.41636, lat: 43.76681, name: "TO" }];
-    // const markers = yearlyMarkers.features.map((feature) => ({ lon: -79.41636, lat: 43.76681, name: 'markerNamePlaceholder' }));
     const markerStyle = new Style({
       image: new Icon({
         anchor: [0.5, 1],
@@ -40,11 +39,13 @@ const OlMap = ({ yearlyMarkersObj }) => {
       }),
     });
 
-    const features = markers.map((marker) => {
-      const point = new Point(fromLonLat([marker.lon, marker.lat]));
+    const OLFeatures = yearlyFeaturesObj.features.map((ftr) => {
+      const point = new Point(
+        fromLonLat([ftr.attributes.LONG_WGS84, ftr.attributes.LAT_WGS84])
+      );
       const feature = new Feature({
         geometry: point,
-        name: marker.name,
+        name: ftr.attributes.EVENT_UNIQUE_ID,
       });
       feature.setStyle(markerStyle);
       return feature;
@@ -52,14 +53,14 @@ const OlMap = ({ yearlyMarkersObj }) => {
 
     mapConfig.addLayer(vectorLayer);
 
-    vectorSource.addFeatures(features);
+    vectorSource.addFeatures(OLFeatures);
 
     // link map to the ref
     mapConfig.setTarget(mapRef.current);
     return () => mapConfig.setTarget("");
-  }, []);
+  }, [yearlyFeaturesObj?.features, loading]);
 
-  return <div className="map" ref={mapRef} />;
+  return <div style={{ height: "100%" }} className="map" ref={mapRef} />;
 };
 
-export default OlMap;
+export default MapInit;
