@@ -12,6 +12,9 @@ function App() {
         className="placeholder-glow position-relative"
       >
         <Navbar.Brand className="ms-4">crime_scan</Navbar.Brand>
+        <Navbar.Brand className="ms-4">
+          <span>//app is work in progress, next step: add clusters ASAP</span>
+        </Navbar.Brand>
       </Navbar>
       <MapComponent />
       <footer>hungryvito</footer>
