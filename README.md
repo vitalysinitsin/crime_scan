@@ -1,9 +1,9 @@
 [DEMO](https://hungryvito.github.io/crime_scan/)
 
-Crime Scan is a project to improve the default map local police websites provide in order to better visualize the crime level situation in the area. Two use cases could be improved:
+Crime Scan is my take on the default map that local police departments provide. With this project, I want to improve and add more visualization tools to get a clearer idea of the crime-level situation in the area. Two use cases I want to enhance the visualization on:
 
 1. The markers based by type overlap, resulting in less violent crime covering everything else (e.g. car theft type overlaps violent crime types).
-2. The markers of the only type displayed overlap each other, making it harder to figure out the level of crime density in the neighbourhood.
+2. The markers of the only type displayed overlap each other, making it harder to figure out the level of crime density in the neighborhood.
 
 </br>
 *DISCLAIMER* 
