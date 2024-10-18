@@ -13,7 +13,7 @@ function App() {
       >
         <Navbar.Brand className="ms-4">crime_scan</Navbar.Brand>
         <Navbar.Brand className="ms-4">
-          <span>//app is work in progress, next step: add clusters ASAP</span>
+          <span>WIP. next step: add clusters ASAP</span>
         </Navbar.Brand>
       </Navbar>
       <MapComponent />
@@ -21,5 +21,4 @@ function App() {
     </div>
   );
 }
-
 export default App;

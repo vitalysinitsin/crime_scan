@@ -15,6 +15,7 @@ const DEFAULT_CENTER = fromLonLat([-79.41636, 43.76681]);
 
 const MapInit = ({ yearlyFeaturesObj, loading }) => {
   const mapRef = useRef(null);
+  console.log(yearlyFeaturesObj);
 
   useEffect(() => {
     if (!mapRef.current) return;

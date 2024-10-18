@@ -21,16 +21,16 @@ const usePaginatedQuery = ({ where }) => {
         return;
       }
 
-      setQueryState({
+      setQueryState((current) => ({
         paginatedFeaturesObj: {
           ...page,
-          features: queryState.paginatedFeaturesObj?.features
-            ? [...queryState.paginatedFeaturesObj.features, ...page.features]
+          features: current.paginatedFeaturesObj?.features
+            ? [...current.paginatedFeaturesObj.features, ...page.features]
             : page.features,
         },
-        resultOffset: queryState.resultOffset + page.features.length,
+        resultOffset: current.resultOffset + page.features.length,
         loading: page.exceededTransferLimit,
-      });
+      }));
     };
 
     const json = await queryFeatures({
@@ -39,13 +39,7 @@ const usePaginatedQuery = ({ where }) => {
       resultOffset: queryState.resultOffset,
     });
     addAPage(json);
-  }, [
-    where,
-    queryState.loading,
-    queryState.resultOffset,
-    queryState.paginatedFeaturesObj,
-    setQueryState,
-  ]);
+  }, [where, queryState.loading, queryState.resultOffset, setQueryState]);
 
   useEffect(() => {
     loadFeaturePageFromServer();
