@@ -17,7 +17,7 @@ function App() {
         </Navbar.Brand>
       </Navbar>
       <MapComponent />
-      <footer>hungryvito</footer>
+      <footer></footer>
     </div>
   );
 }
