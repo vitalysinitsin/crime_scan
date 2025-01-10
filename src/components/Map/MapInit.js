@@ -31,6 +31,17 @@ const MapInit = ({ features, loading }) => {
       });
 
       mapInstanceRef.current = map;
+
+      // interactions
+      map.on("click", (event) => {
+        map.forEachFeatureAtPixel(event.pixel, (feature) => {
+          const features = feature.get("features");
+
+          if (features?.length) {
+            console.log("Clicked the cluster", features);
+          }
+        });
+      });
     }
     return () => {
       mapInstanceRef.current.setTarget(null);
@@ -83,9 +94,6 @@ const MapInit = ({ features, loading }) => {
               text: new Text({
                 text: size.toString(),
                 fill: new Fill({ color: "white" }),
-                onClick: () => {
-                  console.log("clicked the cluster");
-                },
               }),
             });
           }
