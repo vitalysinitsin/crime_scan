@@ -46,7 +46,7 @@ const usePaginatedQuery = ({ where }) => {
   }, [loadFeaturePageFromServer]);
 
   return {
-    yearlyFeaturesObj: queryState.paginatedFeaturesObj,
+    featuresObject: queryState.paginatedFeaturesObj,
     loading: queryState.loading,
   };
 };
