@@ -10,7 +10,7 @@ import VectorLayer from "ol/layer/Vector";
 import { Point } from "ol/geom";
 import Feature from "ol/Feature";
 import TileLayer from "ol/layer/Tile";
-import Pin from "../../assets/pin.svg";
+import Pin from "../assets/pin.svg";
 import Fill from "ol/style/Fill";
 import Text from "ol/style/Text";
 import Stroke from "ol/style/Stroke";
