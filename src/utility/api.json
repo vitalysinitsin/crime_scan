@@ -1,3 +1,0 @@
-{
-  "year2024": "https://services.arcgis.com/S9th0jAJ7bqgIRjw/arcgis/rest/services/Major_Crime_Indicators_Open_Data/FeatureServer/0/query?where=%20(REPORT_YEAR%20%3D%202023%20OR%20REPORT_YEAR%20%3D%202024)%20&maxRecordCountFactor=20&outFields=*&outSR=4326&f=json"
-}

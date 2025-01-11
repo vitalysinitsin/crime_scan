@@ -1,21 +1,12 @@
-import MapInit from "./MapInit";
-import usePaginatedQuery from "../../utility/paginatedQuery";
 import LoadingModal from "../utility/LoadingModal";
+import useMapInit from "../../hooks/MapInit";
 
-const MapComponent = ({ searchParams }) => {
-  const { year } = searchParams;
-
-  const queryFilter = {
-    where: `OCC_YEAR = ${year}`,
-  };
-  const {
-    featuresObject: { features },
-    loading,
-  } = usePaginatedQuery(queryFilter);
+const MapComponent = ({ features, loading }) => {
+  const { mapRef } = useMapInit(features, loading);
 
   return (
     <div style={{ position: "relative" }}>
-      <MapInit features={features} loading={loading} />
+      <div style={{ height: "100%" }} className="map" ref={mapRef} />;
       <LoadingModal show={loading} />
     </div>
   );

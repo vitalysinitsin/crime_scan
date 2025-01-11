@@ -1,5 +1,5 @@
 import "ol/ol.css";
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { Map, View } from "ol";
 import { Cluster, OSM, Vector } from "ol/source";
 import { fromLonLat } from "ol/proj";
@@ -17,7 +17,7 @@ import Stroke from "ol/style/Stroke";
 
 const DEFAULT_CENTER = fromLonLat([-79.41636, 43.76681]);
 
-const MapInit = ({ features, loading }) => {
+const useMapInit = (features, loading) => {
   const mapRef = useRef(null);
   const mapInstanceRef = useRef(null);
 
@@ -113,7 +113,7 @@ const MapInit = ({ features, loading }) => {
     }
   }, [features, loading]);
 
-  return <div style={{ height: "100%" }} className="map" ref={mapRef} />;
+  return { mapRef, mapInstanceRef };
 };
 
-export default MapInit;
+export default useMapInit;
