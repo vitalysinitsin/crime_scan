@@ -59,6 +59,14 @@ const MapInit = ({ features, loading }) => {
         }),
       });
 
+      const uniqueOffence = new Set(
+        features.map((ftr) => ftr.attributes.OFFENCE)
+      );
+      const uniqueMCI = new Set(
+        features.map((ftr) => ftr.attributes.MCI_CATEGORY)
+      );
+      console.log(uniqueOffence, uniqueMCI);
+
       const OLFeatures = features.map((ftr) => {
         const point = new Point(
           fromLonLat([ftr.attributes.LONG_WGS84, ftr.attributes.LAT_WGS84])
