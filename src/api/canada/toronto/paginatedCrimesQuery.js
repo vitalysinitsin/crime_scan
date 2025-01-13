@@ -4,7 +4,16 @@ import { queryFeatures } from "@esri/arcgis-rest-feature-service";
 const TORONTO_MCI_ESRI_SERVICE_URL =
   "https://services.arcgis.com/S9th0jAJ7bqgIRjw/arcgis/rest/services/Major_Crime_Indicators_Open_Data/FeatureServer/0";
 
-const usePaginatedQuery = ({ where }) => {
+const buildWhereClause = (filter) => {
+  return Object.entries(filter)
+    .filter(([key, value]) => !!value)
+    .map(([key, value]) => `${key} = '${value}'`)
+    .join(" AND ");
+};
+
+const usePaginatedQuery = (queryFilter) => {
+  const where = buildWhereClause(queryFilter);
+
   const [queryState, setQueryState] = useState({
     paginatedFeaturesObj: {},
     resultOffset: 0,

@@ -4,12 +4,11 @@ import MapComponent from "./components/Map/MapComponent";
 import usePaginatedQuery from "./api/canada/toronto/paginatedCrimesQuery";
 
 function App() {
-  const [searchParams, setSearchParams] = useState({ year: "2023" });
-  const { year } = searchParams;
-
-  const queryFilter = {
-    where: `OCC_YEAR = ${year}`,
-  };
+  const [queryFilter, setQueryFilter] = useState({
+    OCC_YEAR: 2023,
+    MCI_CATEGORY: null,
+    DIVISION: null,
+  });
 
   const { featuresObject, loading } = usePaginatedQuery(queryFilter);
   return (
@@ -23,7 +22,7 @@ function App() {
         <Navbar.Brand className="ms-4">crime_scan</Navbar.Brand>
         <Navbar.Text>
           <span>Currently displays all crimes commited in Toronto in </span>
-          {searchParams.year}
+          {queryFilter?.OCC_YEAR}
         </Navbar.Text>
       </Navbar>
       <MapComponent features={featuresObject.features} loading={loading} />

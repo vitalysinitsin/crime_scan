@@ -59,13 +59,34 @@ const useMapInit = (features, loading) => {
         }),
       });
 
-      const uniqueOffence = new Set(
-        features.map((ftr) => ftr.attributes.OFFENCE)
-      );
+      // filtering offence types
       const uniqueMCI = new Set(
         features.map((ftr) => ftr.attributes.MCI_CATEGORY)
       );
-      console.log(uniqueOffence, uniqueMCI);
+
+      const assaults = features.filter(
+        (feature) => feature.attributes.MCI_CATEGORY === "Assault"
+      ).length;
+      const breaksAndEnters = features.filter(
+        (feature) => feature.attributes.MCI_CATEGORY === "Break and Enter"
+      ).length;
+      const autoThefts = features.filter(
+        (feature) => feature.attributes.MCI_CATEGORY === "Auto Theft"
+      ).length;
+      const robberies = features.filter(
+        (feature) => feature.attributes.MCI_CATEGORY === "Robbery"
+      ).length;
+      const theftsOver = features.filter(
+        (feature) => feature.attributes.MCI_CATEGORY === "Theft Over"
+      ).length;
+
+      console.log(uniqueMCI, features, {
+        assaults,
+        breaksAndEnters,
+        autoThefts,
+        robberies,
+        theftsOver,
+      });
 
       const OLFeatures = features.map((ftr) => {
         const point = new Point(
