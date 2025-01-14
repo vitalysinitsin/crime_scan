@@ -1,10 +1,17 @@
 import React, { useState } from "react";
 import Navbar from "react-bootstrap/Navbar";
 import MapComponent from "./components/Map/MapComponent";
-import usePaginatedQuery from "./api/canada/toronto/paginatedCrimesQuery";
+import usePaginatedQuery from "./api/canada/toronto/usePaginatedCrimesQuery";
+
+// may update later when I'll add new UI components to filter the data
+export interface QueryFilter {
+  OCC_YEAR: number;
+  MCI_CATEGORY: string | null;
+  DIVISION: string | null;
+}
 
 function App() {
-  const [queryFilter, setQueryFilter] = useState({
+  const [queryFilter, setQueryFilter] = useState<QueryFilter>({
     OCC_YEAR: 2023,
     MCI_CATEGORY: null,
     DIVISION: null,
@@ -25,7 +32,7 @@ function App() {
           {queryFilter?.OCC_YEAR}
         </Navbar.Text>
       </Navbar>
-      <MapComponent features={featuresObject.features} loading={loading} />
+      <MapComponent features={featuresObject?.features} loading={loading} />
       <footer></footer>
     </div>
   );

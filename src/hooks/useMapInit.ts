@@ -14,16 +14,23 @@ import Pin from "../assets/pin.svg";
 import Fill from "ol/style/Fill";
 import Text from "ol/style/Text";
 import Stroke from "ol/style/Stroke";
+import { IFeature } from "@esri/arcgis-rest-request";
 
 const DEFAULT_CENTER = fromLonLat([-79.41636, 43.76681]);
 
-const useMapInit = (features, loading) => {
-  const mapRef = useRef(null);
-  const mapInstanceRef = useRef(null);
+const useMapInit = ({
+  features,
+  loading,
+}: {
+  features?: IFeature[];
+  loading?: boolean;
+}) => {
+  const mapRef = useRef<HTMLDivElement>(null);
+  const mapInstanceRef = useRef<Map | null>(null);
 
   // initializes the map with tile layers
   useEffect(() => {
-    if (!mapInstanceRef.current) {
+    if (!mapInstanceRef.current && mapRef.current) {
       const map = new Map({
         target: mapRef.current,
         view: new View({ center: DEFAULT_CENTER, zoom: 11 }),
@@ -44,7 +51,7 @@ const useMapInit = (features, loading) => {
       });
     }
     return () => {
-      mapInstanceRef.current.setTarget(null);
+      mapInstanceRef.current?.setTarget();
     };
   }, []);
 
@@ -59,7 +66,7 @@ const useMapInit = (features, loading) => {
         }),
       });
 
-      // filtering offence types
+      // filtering offence types WIP ***START
       const uniqueMCI = new Set(
         features.map((ftr) => ftr.attributes.MCI_CATEGORY)
       );
@@ -87,6 +94,7 @@ const useMapInit = (features, loading) => {
         robberies,
         theftsOver,
       });
+      // filtering offence types WIP ***END
 
       const OLFeatures = features.map((ftr) => {
         const point = new Point(
