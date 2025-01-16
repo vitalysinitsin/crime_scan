@@ -25,7 +25,7 @@ const useMapInit = ({
   features?: IFeature[];
   loading?: boolean;
 }) => {
-  const mapRef = useRef<HTMLDivElement>(null);
+  const mapRef = useRef<HTMLDivElement | null>(null);
   const mapInstanceRef = useRef<Map | null>(null);
 
   // initializes the map with tile layers
@@ -65,36 +65,6 @@ const useMapInit = ({
           width: 30,
         }),
       });
-
-      // filtering offence types WIP ***START
-      const uniqueMCI = new Set(
-        features.map((ftr) => ftr.attributes.MCI_CATEGORY)
-      );
-
-      const assaults = features.filter(
-        (feature) => feature.attributes.MCI_CATEGORY === "Assault"
-      ).length;
-      const breaksAndEnters = features.filter(
-        (feature) => feature.attributes.MCI_CATEGORY === "Break and Enter"
-      ).length;
-      const autoThefts = features.filter(
-        (feature) => feature.attributes.MCI_CATEGORY === "Auto Theft"
-      ).length;
-      const robberies = features.filter(
-        (feature) => feature.attributes.MCI_CATEGORY === "Robbery"
-      ).length;
-      const theftsOver = features.filter(
-        (feature) => feature.attributes.MCI_CATEGORY === "Theft Over"
-      ).length;
-
-      console.log(uniqueMCI, features, {
-        assaults,
-        breaksAndEnters,
-        autoThefts,
-        robberies,
-        theftsOver,
-      });
-      // filtering offence types WIP ***END
 
       const OLFeatures = features.map((ftr) => {
         const point = new Point(

@@ -35,20 +35,20 @@ const usePaginatedQuery = (queryFilter: QueryFilter) => {
       return;
     }
 
-    const pushData = (jsonData: IQueryFeaturesResponse) => {
-      if (!jsonData) {
+    const combinePagesTogether = (page: IQueryFeaturesResponse) => {
+      if (!page) {
         return;
       }
 
       setQueryState((current) => ({
         paginatedFeaturesObj: {
-          ...jsonData,
+          ...page,
           features: current.paginatedFeaturesObj?.features
-            ? [...current.paginatedFeaturesObj.features, ...jsonData.features]
-            : jsonData.features,
+            ? [...current.paginatedFeaturesObj.features, ...page.features]
+            : page.features,
         },
-        resultOffset: current.resultOffset + jsonData.features.length,
-        loading: jsonData.exceededTransferLimit,
+        resultOffset: current.resultOffset + page.features.length,
+        loading: page.exceededTransferLimit,
       }));
     };
 
@@ -58,7 +58,7 @@ const usePaginatedQuery = (queryFilter: QueryFilter) => {
       resultOffset: queryState.resultOffset,
     })) as IQueryFeaturesResponse;
 
-    pushData(json);
+    combinePagesTogether(json);
   }, [where, queryState.loading, queryState.resultOffset, setQueryState]);
 
   useEffect(() => {

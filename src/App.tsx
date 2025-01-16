@@ -1,23 +1,55 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Navbar from "react-bootstrap/Navbar";
-import MapComponent from "./components/Map/MapComponent";
+import MapComponent from "./components/MapComponent";
 import usePaginatedQuery from "./api/canada/toronto/usePaginatedCrimesQuery";
 
 // may update later when I'll add new UI components to filter the data
 export interface QueryFilter {
   OCC_YEAR: number;
-  MCI_CATEGORY: string | null;
-  DIVISION: string | null;
+  DIVISION?: string | null;
 }
 
 function App() {
   const [queryFilter, setQueryFilter] = useState<QueryFilter>({
     OCC_YEAR: 2023,
-    MCI_CATEGORY: null,
-    DIVISION: null,
   });
 
   const { featuresObject, loading } = usePaginatedQuery(queryFilter);
+
+  if (!loading && featuresObject?.features) {
+    const { features } = featuresObject;
+
+    // filtering offence types WIP ***START
+    const uniqueMCI = new Set(
+      features.map((ftr) => ftr.attributes.MCI_CATEGORY)
+    );
+
+    const assaults = features.filter(
+      (feature) => feature.attributes.MCI_CATEGORY === "Assault"
+    ).length;
+    const breaksAndEnters = features.filter(
+      (feature) => feature.attributes.MCI_CATEGORY === "Break and Enter"
+    ).length;
+    const autoThefts = features.filter(
+      (feature) => feature.attributes.MCI_CATEGORY === "Auto Theft"
+    ).length;
+    const robberies = features.filter(
+      (feature) => feature.attributes.MCI_CATEGORY === "Robbery"
+    ).length;
+    const theftsOver = features.filter(
+      (feature) => feature.attributes.MCI_CATEGORY === "Theft Over"
+    ).length;
+
+    console.log(uniqueMCI, features, {
+      assaults,
+      breaksAndEnters,
+      autoThefts,
+      robberies,
+      theftsOver,
+    });
+    // filtering offence types WIP ***END
+  }
+
   return (
     <div>
       <Navbar

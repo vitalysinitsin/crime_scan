@@ -1,5 +1,5 @@
-import LoadingModal from "../utility/LoadingModal";
-import useMapInit from "../../hooks/useMapInit";
+import LoadingModal from "./LoadingModal";
+import useMapInit from "../hooks/useMapInit";
 import { IFeature } from "@esri/arcgis-rest-request";
 
 const MapComponent = ({
@@ -19,7 +19,6 @@ const MapComponent = ({
         className="map"
         ref={mapRef}
       />
-      ;
       <LoadingModal show={loading} />
     </div>
   );
