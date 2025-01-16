@@ -2,7 +2,7 @@ import { Modal, Spinner } from "react-bootstrap";
 
 const LoadingModal = ({ show }: { show?: boolean }) => {
   return (
-    <Modal size="sm" show={show} backdrop="static" keyboard={false} centered>
+    <Modal size="sm" show={show} keyboard={false} centered>
       <Modal.Body
         className="text-center text-white"
         style={{ background: "#212529" }}

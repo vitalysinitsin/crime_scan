@@ -17,7 +17,6 @@ const buildWhereClause = (filter: QueryFilter) => {
 };
 
 interface QueryState {
-  // paginatedFeaturesObj: IQueryFeaturesResponse | null;
   resultOffset: number;
   loading?: boolean;
 }
@@ -27,7 +26,6 @@ const usePaginatedQuery = (queryFilter: QueryFilter) => {
   const { setCrimes } = useCrimesContext();
 
   const [queryState, setQueryState] = useState<QueryState>({
-    // paginatedFeaturesObj: null,
     resultOffset: 0,
     loading: true,
   });
@@ -41,17 +39,6 @@ const usePaginatedQuery = (queryFilter: QueryFilter) => {
       if (!page) {
         return;
       }
-
-      // setQueryState((current) => ({
-      //   paginatedFeaturesObj: {
-      //     ...page,
-      //     features: current.paginatedFeaturesObj?.features
-      //       ? [...current.paginatedFeaturesObj.features, ...page.features]
-      //       : page.features,
-      //   },
-      //   resultOffset: current.resultOffset + page.features.length,
-      //   loading: page.exceededTransferLimit,
-      // }));
 
       setCrimes((current) => [...current, ...page.features]);
       setQueryState((current) => ({
