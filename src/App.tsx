@@ -2,6 +2,7 @@ import { useState } from "react";
 import Navbar from "react-bootstrap/Navbar";
 import MapComponent from "./components/MapComponent";
 import usePaginatedQuery from "./api/canada/toronto/usePaginatedCrimesQuery";
+import useCrimesContext from "./context/CrimesContext";
 
 // may update later when I'll add new UI components to filter the data
 export interface QueryFilter {
@@ -14,11 +15,10 @@ function App() {
     OCC_YEAR: 2023,
   });
 
-  const { featuresObject, loading } = usePaginatedQuery(queryFilter);
+  const { loading } = usePaginatedQuery(queryFilter);
+  const { crimes: features } = useCrimesContext();
 
-  if (!loading && featuresObject?.features) {
-    const { features } = featuresObject;
-
+  if (!loading) {
     // filtering offence types WIP ***START
     const uniqueMCI = new Set(
       features.map((ftr) => ftr.attributes.MCI_CATEGORY)
@@ -64,7 +64,7 @@ function App() {
           {queryFilter?.OCC_YEAR}
         </Navbar.Text>
       </Navbar>
-      <MapComponent features={featuresObject?.features} loading={loading} />
+      <MapComponent features={features} loading={loading} />
       <footer></footer>
     </div>
   );

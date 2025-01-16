@@ -4,7 +4,7 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { CrimesProvider } from "./contexts/CrimesContext";
+import { CrimesProvider } from "./context/CrimesContext";
 
 ReactDOM.render(
   <React.StrictMode>

@@ -4,6 +4,7 @@ import {
   queryFeatures,
 } from "@esri/arcgis-rest-feature-service";
 import { QueryFilter } from "../../../App";
+import useCrimesContext from "../../../context/CrimesContext";
 
 const TORONTO_MCI_ESRI_SERVICE_URL =
   "https://services.arcgis.com/S9th0jAJ7bqgIRjw/arcgis/rest/services/Major_Crime_Indicators_Open_Data/FeatureServer/0";
@@ -16,16 +17,17 @@ const buildWhereClause = (filter: QueryFilter) => {
 };
 
 interface QueryState {
-  paginatedFeaturesObj: IQueryFeaturesResponse | null;
+  // paginatedFeaturesObj: IQueryFeaturesResponse | null;
   resultOffset: number;
   loading?: boolean;
 }
 
 const usePaginatedQuery = (queryFilter: QueryFilter) => {
   const where = buildWhereClause(queryFilter);
+  const { setCrimes } = useCrimesContext();
 
   const [queryState, setQueryState] = useState<QueryState>({
-    paginatedFeaturesObj: null,
+    // paginatedFeaturesObj: null,
     resultOffset: 0,
     loading: true,
   });
@@ -40,13 +42,19 @@ const usePaginatedQuery = (queryFilter: QueryFilter) => {
         return;
       }
 
+      // setQueryState((current) => ({
+      //   paginatedFeaturesObj: {
+      //     ...page,
+      //     features: current.paginatedFeaturesObj?.features
+      //       ? [...current.paginatedFeaturesObj.features, ...page.features]
+      //       : page.features,
+      //   },
+      //   resultOffset: current.resultOffset + page.features.length,
+      //   loading: page.exceededTransferLimit,
+      // }));
+
+      setCrimes((current) => [...current, ...page.features]);
       setQueryState((current) => ({
-        paginatedFeaturesObj: {
-          ...page,
-          features: current.paginatedFeaturesObj?.features
-            ? [...current.paginatedFeaturesObj.features, ...page.features]
-            : page.features,
-        },
         resultOffset: current.resultOffset + page.features.length,
         loading: page.exceededTransferLimit,
       }));
@@ -59,14 +67,19 @@ const usePaginatedQuery = (queryFilter: QueryFilter) => {
     })) as IQueryFeaturesResponse;
 
     combinePagesTogether(json);
-  }, [where, queryState.loading, queryState.resultOffset, setQueryState]);
+  }, [
+    where,
+    queryState.loading,
+    queryState.resultOffset,
+    setQueryState,
+    setCrimes,
+  ]);
 
   useEffect(() => {
     loadFeaturePageFromServer();
   }, [loadFeaturePageFromServer]);
 
   return {
-    featuresObject: queryState.paginatedFeaturesObj,
     loading: queryState.loading,
   };
 };

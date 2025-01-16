@@ -19,7 +19,9 @@
     "allowJs": false,
 
     /* Completeness */
-    "skipLibCheck": true /* Skip type checking all .d.ts files. */
+    "skipLibCheck": true /* Skip type checking all .d.ts files. */,
+
+    "lib": ["es5", "es6", "dom", "dom.iterable"]
   },
   "include": ["src"],
   "exclude": ["node_modules", "build"]
