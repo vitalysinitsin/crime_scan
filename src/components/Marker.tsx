@@ -6,7 +6,7 @@ interface MarkerProps {
   bg: string;
 }
 
-export default function Marker({ text, onClick, bg }: MarkerProps) {
+function Marker({ text, onClick, bg }: MarkerProps) {
   const style = {
     tabIndex: "0",
     backgroundColor: bg,
@@ -26,3 +26,5 @@ export default function Marker({ text, onClick, bg }: MarkerProps) {
     </div>
   );
 }
+
+export default Marker;

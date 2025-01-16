@@ -1,14 +1,16 @@
 import LoadingModal from "./LoadingModal";
 import useMapInit from "../hooks/useMapInit";
-import { IFeature } from "@esri/arcgis-rest-request";
+import useCrimesContext from "../context/CrimesContext";
+import usePaginatedQuery from "../api/canada/toronto/usePaginatedCrimesQuery";
+import { QueryFilter } from "../App";
 
-const MapComponent = ({
-  features,
-  loading,
-}: {
-  features?: IFeature[];
-  loading?: boolean;
-}) => {
+interface MapComponentProps {
+  queryFilter: QueryFilter;
+}
+
+function MapComponent({ queryFilter }: MapComponentProps) {
+  const { crimes: features } = useCrimesContext();
+  const { loading } = usePaginatedQuery(queryFilter);
   const { mapRef } = useMapInit({ features, loading });
 
   return (
@@ -22,6 +24,6 @@ const MapComponent = ({
       <LoadingModal show={loading} />
     </div>
   );
-};
+}
 
 export default MapComponent;

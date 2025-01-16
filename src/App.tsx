@@ -1,8 +1,7 @@
 import { useState } from "react";
 import Navbar from "react-bootstrap/Navbar";
 import MapComponent from "./components/MapComponent";
-import usePaginatedQuery from "./api/canada/toronto/usePaginatedCrimesQuery";
-import useCrimesContext from "./context/CrimesContext";
+import SummaryPanel from "./components/SummaryPanel";
 
 // may update later when I'll add new UI components to filter the data
 export interface QueryFilter {
@@ -11,44 +10,9 @@ export interface QueryFilter {
 }
 
 function App() {
-  const [queryFilter, setQueryFilter] = useState<QueryFilter>({
+  const [queryFilter] = useState<QueryFilter>({
     OCC_YEAR: 2023,
   });
-
-  const { loading } = usePaginatedQuery(queryFilter);
-  const { crimes: features } = useCrimesContext();
-
-  if (!loading) {
-    // filtering offence types WIP ***START
-    const uniqueMCI = new Set(
-      features.map((ftr) => ftr.attributes.MCI_CATEGORY)
-    );
-
-    const assaults = features.filter(
-      (feature) => feature.attributes.MCI_CATEGORY === "Assault"
-    ).length;
-    const breaksAndEnters = features.filter(
-      (feature) => feature.attributes.MCI_CATEGORY === "Break and Enter"
-    ).length;
-    const autoThefts = features.filter(
-      (feature) => feature.attributes.MCI_CATEGORY === "Auto Theft"
-    ).length;
-    const robberies = features.filter(
-      (feature) => feature.attributes.MCI_CATEGORY === "Robbery"
-    ).length;
-    const theftsOver = features.filter(
-      (feature) => feature.attributes.MCI_CATEGORY === "Theft Over"
-    ).length;
-
-    console.log(uniqueMCI, features, {
-      assaults,
-      breaksAndEnters,
-      autoThefts,
-      robberies,
-      theftsOver,
-    });
-    // filtering offence types WIP ***END
-  }
 
   return (
     <div>
@@ -64,7 +28,8 @@ function App() {
           {queryFilter?.OCC_YEAR}
         </Navbar.Text>
       </Navbar>
-      <MapComponent features={features} loading={loading} />
+      <MapComponent queryFilter={queryFilter} />
+      <SummaryPanel />
       <footer></footer>
     </div>
   );

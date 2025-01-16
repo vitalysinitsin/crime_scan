@@ -1,6 +1,6 @@
 import { Modal, Spinner } from "react-bootstrap";
 
-const LoadingModal = ({ show }: { show?: boolean }) => {
+function LoadingModal({ show }: { show?: boolean }) {
   return (
     <Modal size="sm" show={show} keyboard={false} centered>
       <Modal.Body
@@ -16,6 +16,6 @@ const LoadingModal = ({ show }: { show?: boolean }) => {
       </Modal.Body>
     </Modal>
   );
-};
+}
 
 export default LoadingModal;

@@ -81,11 +81,12 @@ const useMapInit = ({
       const vectorSource = new Vector({
         features: OLFeatures,
       });
+
       const clusterSource = new Cluster({
         source: vectorSource,
         distance: 40,
       });
-      // const vectorLayer = new VectorLayer({ source: vectorSource });
+
       const clusterLayer = new VectorLayer({
         source: clusterSource,
         style: (feature) => {
