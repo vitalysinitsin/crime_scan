@@ -17,7 +17,7 @@ function MapComponent({ queryFilter }: MapComponentProps) {
     <div style={{ position: "relative" }}>
       <div
         id="openLayersMap"
-        style={{ height: "100%" }}
+        style={{ height: "100%", backgroundColor: "pink" }}
         className="map"
         ref={mapRef}
       />

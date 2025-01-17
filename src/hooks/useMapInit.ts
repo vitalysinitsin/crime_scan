@@ -50,13 +50,7 @@ const useMapInit = ({
         });
       });
     }
-    return () => {
-      mapInstanceRef.current?.setTarget();
-    };
-  }, []);
 
-  // adds markers when features are loaded
-  useEffect(() => {
     if (!loading && features && mapInstanceRef.current) {
       const markerStyle = new Style({
         image: new Icon({
@@ -110,6 +104,9 @@ const useMapInit = ({
       });
 
       mapInstanceRef.current.addLayer(clusterLayer);
+      return () => {
+        mapInstanceRef.current?.setTarget();
+      };
     }
   }, [features, loading]);
 

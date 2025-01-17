@@ -1,5 +1,4 @@
 import { useState } from "react";
-import Navbar from "react-bootstrap/Navbar";
 import MapComponent from "./components/MapComponent";
 import SummaryPanel from "./components/SummaryPanel";
 
@@ -16,18 +15,13 @@ function App() {
 
   return (
     <div>
-      <Navbar
-        bg="dark"
-        variant="dark"
-        expand="lg"
-        className="placeholder-glow position-relative"
-      >
-        <Navbar.Brand className="ms-4">crime_scan</Navbar.Brand>
-        <Navbar.Text>
+      <div className="placeholder-glow position-relative">
+        <h2>crime_scan</h2>
+        <p>
           <span>Currently displays all crimes commited in Toronto in </span>
           {queryFilter?.OCC_YEAR}
-        </Navbar.Text>
-      </Navbar>
+        </p>
+      </div>
       <MapComponent queryFilter={queryFilter} />
       <SummaryPanel />
       <footer></footer>

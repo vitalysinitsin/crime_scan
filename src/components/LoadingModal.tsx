@@ -1,20 +1,11 @@
-import { Modal, Spinner } from "react-bootstrap";
-
 function LoadingModal({ show }: { show?: boolean }) {
   return (
-    <Modal size="sm" show={show} keyboard={false} centered>
-      <Modal.Body
-        className="text-center text-white"
-        style={{ background: "#212529" }}
-      >
-        <Spinner
-          style={{ width: "3rem", height: "3rem", borderWidth: ".5rem" }}
-          animation="border"
-          variant="primary"
-        />
+    <div>
+      <div className="text-center text-white" style={{ background: "#212529" }}>
+        <div style={{ width: "3rem", height: "3rem", borderWidth: ".5rem" }} />
         <div>Loading...</div>
-      </Modal.Body>
-    </Modal>
+      </div>
+    </div>
   );
 }
 
