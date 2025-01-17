@@ -11,14 +11,12 @@
     "@testing-library/user-event": "^12.8.3",
     "bootstrap": "^5.3.3",
     "gh-pages": "^6.1.1",
-    "google-map-react": "^2.1.9",
     "ol": "^10.2.0",
     "react": "^16.14.0",
     "react-app-polyfill": "^2.0.0",
     "react-bootstrap": "^2.10.7",
     "react-dom": "^16.14.0",
     "react-scripts": "^5.0.1",
-    "use-supercluster": "^0.2.9",
     "web-vitals": "^1.1.1"
   },
   "scripts": {
