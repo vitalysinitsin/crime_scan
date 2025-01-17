@@ -9,18 +9,12 @@ interface MapComponentProps {
 }
 
 function MapComponent({ queryFilter }: MapComponentProps) {
-  const { crimes: features } = useCrimesContext();
-  const { loading } = usePaginatedQuery(queryFilter);
-  const { mapRef } = useMapInit({ features, loading });
+  const { features, loading } = usePaginatedQuery(queryFilter);
+  useMapInit({ features, loading });
 
   return (
     <div style={{ position: "relative" }}>
-      <div
-        id="openLayersMap"
-        style={{ height: "100%", backgroundColor: "pink" }}
-        className="map"
-        ref={mapRef}
-      />
+      <div id="openLayersMap" style={{ height: "100%" }} className="map" />
       <LoadingModal show={loading} />
     </div>
   );

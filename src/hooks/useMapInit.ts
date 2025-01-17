@@ -25,14 +25,13 @@ const useMapInit = ({
   features?: IFeature[];
   loading?: boolean;
 }) => {
-  const mapRef = useRef<HTMLDivElement | null>(null);
   const mapInstanceRef = useRef<Map | null>(null);
 
   // initializes the map with tile layers
   useEffect(() => {
-    if (!mapInstanceRef.current && mapRef.current) {
+    if (!mapInstanceRef.current) {
       const map = new Map({
-        target: mapRef.current,
+        target: "openLayersMap",
         view: new View({ center: DEFAULT_CENTER, zoom: 11 }),
         layers: [new TileLayer({ source: new OSM() })],
       });
@@ -50,7 +49,9 @@ const useMapInit = ({
         });
       });
     }
+  }, []);
 
+  useEffect(() => {
     if (!loading && features && mapInstanceRef.current) {
       const markerStyle = new Style({
         image: new Icon({
@@ -104,13 +105,8 @@ const useMapInit = ({
       });
 
       mapInstanceRef.current.addLayer(clusterLayer);
-      return () => {
-        mapInstanceRef.current?.setTarget();
-      };
     }
-  }, [features, loading]);
-
-  return { mapRef, mapInstanceRef };
+  }, [loading]);
 };
 
 export default useMapInit;

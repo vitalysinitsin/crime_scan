@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import {
+  IFeature,
   IQueryFeaturesResponse,
   queryFeatures,
 } from "@esri/arcgis-rest-feature-service";
@@ -17,6 +18,7 @@ const buildWhereClause = (filter: QueryFilter) => {
 };
 
 interface QueryState {
+  values: IFeature[];
   resultOffset: number;
   loading?: boolean;
 }
@@ -26,12 +28,14 @@ const usePaginatedQuery = (queryFilter: QueryFilter) => {
   const { setCrimes } = useCrimesContext();
 
   const [queryState, setQueryState] = useState<QueryState>({
+    values: [],
     resultOffset: 0,
     loading: true,
   });
 
   const loadFeaturePageFromServer = useCallback(async () => {
     if (!queryState.loading) {
+      setCrimes(queryState.values);
       return;
     }
 
@@ -40,8 +44,8 @@ const usePaginatedQuery = (queryFilter: QueryFilter) => {
         return;
       }
 
-      setCrimes((current) => [...current, ...page.features]);
       setQueryState((current) => ({
+        values: [...current.values, ...page.features],
         resultOffset: current.resultOffset + page.features.length,
         loading: page.exceededTransferLimit,
       }));
@@ -67,6 +71,7 @@ const usePaginatedQuery = (queryFilter: QueryFilter) => {
   }, [loadFeaturePageFromServer]);
 
   return {
+    features: queryState.values,
     loading: queryState.loading,
   };
 };
