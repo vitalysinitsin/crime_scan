@@ -4,7 +4,7 @@ import { NodeGlobalsPolyfillPlugin } from "@esbuild-plugins/node-globals-polyfil
 
 export default defineConfig({
   plugings: [react()],
-  base: "/crime_scan/",
+  base: "https://vitalysinitsin.github.io/crime_scan/",
   optimizeDeps: {
     esbuildOptions: {
       plugins: [
