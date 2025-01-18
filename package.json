@@ -4,8 +4,13 @@
   "private": true,
   "homepage": "https://vitalysinitsin.github.io/crime_scan/",
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
     "@esri/arcgis-rest-feature-service": "^4.0.6",
     "@esri/arcgis-rest-request": "^4.2.3",
+    "@fontsource/roboto": "^5.1.1",
+    "@mui/icons-material": "^6.4.0",
+    "@mui/material": "^6.4.0",
     "@testing-library/jest-dom": "^5.11.10",
     "@testing-library/react": "^11.2.6",
     "@testing-library/user-event": "^12.8.3",

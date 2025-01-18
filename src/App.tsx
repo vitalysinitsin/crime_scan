@@ -1,6 +1,7 @@
 import { useState } from "react";
 import MapComponent from "./components/MapComponent";
 import SummaryPanel from "./components/SummaryPanel";
+import Navbar from "./components/Navbar";
 
 // may update later when I'll add new UI components to filter the data
 export interface QueryFilter {
@@ -15,13 +16,7 @@ function App() {
 
   return (
     <div>
-      <div className="placeholder-glow position-relative">
-        <h2>crime_scan</h2>
-        <p>
-          <span>Currently displays all crimes commited in Toronto in </span>
-          {queryFilter?.OCC_YEAR}
-        </p>
-      </div>
+      <Navbar year={queryFilter?.OCC_YEAR}></Navbar>
       <MapComponent queryFilter={queryFilter} />
       <SummaryPanel />
       <footer></footer>
