@@ -23,6 +23,6 @@
 
     "lib": ["es5", "es6", "dom", "dom.iterable"]
   },
-  "include": ["src"],
+  "include": ["src", "vite.config.js"],
   "exclude": ["node_modules", "build"]
 }
