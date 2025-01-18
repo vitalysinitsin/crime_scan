@@ -14,6 +14,9 @@ function Navbar({ children, year }: NavbarProps) {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             crime_scan
           </Typography>
+          <Typography variant="body1" component="span">
+            Currently displays all crimes commited in Toronto in: {year}
+          </Typography>
         </Toolbar>
         {children}
       </AppBar>
