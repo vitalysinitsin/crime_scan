@@ -3,6 +3,7 @@ import useMapInit from "../hooks/useMapInit";
 import useCrimesContext from "../context/CrimesContext";
 import usePaginatedQuery from "../api/canada/toronto/usePaginatedCrimesQuery";
 import { QueryFilter } from "../App";
+import SummaryPanel from "./SummaryPanel";
 
 interface MapComponentProps {
   queryFilter: QueryFilter;
@@ -14,6 +15,7 @@ function MapComponent({ queryFilter }: MapComponentProps) {
 
   return (
     <div style={{ position: "relative" }}>
+      <SummaryPanel />
       <div id="openLayersMap" style={{ height: "100%" }} className="map" />
       <LoadingModal show={loading} />
     </div>

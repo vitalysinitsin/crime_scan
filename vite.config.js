@@ -4,6 +4,9 @@ import { NodeGlobalsPolyfillPlugin } from "@esbuild-plugins/node-globals-polyfil
 
 export default defineConfig({
   plugings: [react()],
+  define: {
+    global: {},
+  },
   base: "/crime_scan/",
   optimizeDeps: {
     esbuildOptions: {

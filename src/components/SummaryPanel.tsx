@@ -1,9 +1,38 @@
+import {
+  Box,
+  Drawer,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Typography,
+} from "@mui/material";
 import useCrimesContext from "../context/CrimesContext";
+import {
+  AttachMoney,
+  CarCrash,
+  DirectionsRun,
+  DoNotStep,
+  Home,
+  SportsKabaddi,
+} from "@mui/icons-material";
+import { useEffect, useState } from "react";
 
 function SummaryPanel() {
   const { crimes } = useCrimesContext();
+  const [open, setOpen] = useState(false);
 
-  // filtering offence types WIP ***START
+  useEffect(() => {
+    if (!!crimes.length) {
+      setOpen(true);
+    }
+  }, [crimes]);
+
+  const handleClick = () => {
+    setOpen(!open);
+  };
+
+  // filtering offence types WIP clean up inc***START
   const uniqueMCI = new Set(crimes.map((ftr) => ftr.attributes.MCI_CATEGORY));
 
   const assaults = crimes.filter(
@@ -31,7 +60,47 @@ function SummaryPanel() {
   });
   // filtering offence types WIP ***END
 
-  return <div></div>;
+  return (
+    <Drawer
+      variant="temporary"
+      open={open}
+      ModalProps={{ keepMounted: false }}
+      onClick={handleClick}
+    >
+      <List>
+        <ListItem>
+          <ListItemIcon>
+            <SportsKabaddi></SportsKabaddi>
+          </ListItemIcon>
+          <ListItemText>Assault: {assaults}</ListItemText>
+        </ListItem>
+        <ListItem>
+          <ListItemIcon>
+            <DoNotStep></DoNotStep>
+          </ListItemIcon>
+          <ListItemText>Break and Enter: {breaksAndEnters}</ListItemText>
+        </ListItem>
+        <ListItem>
+          <ListItemIcon>
+            <CarCrash></CarCrash>
+          </ListItemIcon>
+          <ListItemText>Auto Theft: {autoThefts}</ListItemText>
+        </ListItem>
+        <ListItem>
+          <ListItemIcon>
+            <DirectionsRun></DirectionsRun>
+          </ListItemIcon>
+          <ListItemText>Robbery: {robberies}</ListItemText>
+        </ListItem>
+        <ListItem>
+          <ListItemIcon>
+            <AttachMoney></AttachMoney>
+          </ListItemIcon>
+          <ListItemText>Theft Over: {theftsOver}</ListItemText>
+        </ListItem>
+      </List>
+    </Drawer>
+  );
 }
 
 export default SummaryPanel;

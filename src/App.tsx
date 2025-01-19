@@ -18,7 +18,6 @@ function App() {
     <div>
       <Navbar year={queryFilter?.OCC_YEAR}></Navbar>
       <MapComponent queryFilter={queryFilter} />
-      <SummaryPanel />
       <footer></footer>
     </div>
   );
