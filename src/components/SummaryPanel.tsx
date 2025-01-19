@@ -18,19 +18,13 @@ import {
 } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 
-function SummaryPanel() {
+interface SummaryPanelProps {
+  open: boolean;
+  handleClick: () => void;
+}
+
+function SummaryPanel({ open, handleClick }: SummaryPanelProps) {
   const { crimes } = useCrimesContext();
-  const [open, setOpen] = useState(false);
-
-  useEffect(() => {
-    if (!!crimes.length) {
-      setOpen(true);
-    }
-  }, [crimes]);
-
-  const handleClick = () => {
-    setOpen(!open);
-  };
 
   // filtering offence types WIP clean up inc***START
   const uniqueMCI = new Set(crimes.map((ftr) => ftr.attributes.MCI_CATEGORY));
