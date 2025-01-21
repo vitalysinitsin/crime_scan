@@ -1,6 +1,7 @@
 import {
   Box,
   Drawer,
+  IconButton,
   List,
   ListItem,
   ListItemIcon,
@@ -11,6 +12,7 @@ import useCrimesContext from "../context/CrimesContext";
 import {
   AttachMoney,
   CarCrash,
+  ChevronLeft,
   DirectionsRun,
   DoNotStep,
   Home,
@@ -55,44 +57,46 @@ function SummaryPanel({ open, handleClick }: SummaryPanelProps) {
   // filtering offence types WIP ***END
 
   return (
-    <Drawer
-      variant="temporary"
-      open={open}
-      ModalProps={{ keepMounted: false }}
-      onClick={handleClick}
-    >
-      <List>
-        <ListItem>
-          <ListItemIcon>
-            <SportsKabaddi></SportsKabaddi>
-          </ListItemIcon>
-          <ListItemText>Assault: {assaults}</ListItemText>
-        </ListItem>
-        <ListItem>
-          <ListItemIcon>
-            <DoNotStep></DoNotStep>
-          </ListItemIcon>
-          <ListItemText>Break and Enter: {breaksAndEnters}</ListItemText>
-        </ListItem>
-        <ListItem>
-          <ListItemIcon>
-            <CarCrash></CarCrash>
-          </ListItemIcon>
-          <ListItemText>Auto Theft: {autoThefts}</ListItemText>
-        </ListItem>
-        <ListItem>
-          <ListItemIcon>
-            <DirectionsRun></DirectionsRun>
-          </ListItemIcon>
-          <ListItemText>Robbery: {robberies}</ListItemText>
-        </ListItem>
-        <ListItem>
-          <ListItemIcon>
-            <AttachMoney></AttachMoney>
-          </ListItemIcon>
-          <ListItemText>Theft Over: {theftsOver}</ListItemText>
-        </ListItem>
-      </List>
+    <Drawer variant="persistent" open={open} sx={{ height: "100%" }}>
+      <Box sx={{ display: "flex", justifyContent: "flex-end", mr: 1 }}>
+        <IconButton onClick={handleClick}>
+          <ChevronLeft></ChevronLeft>
+        </IconButton>
+      </Box>
+      <Box>
+        <List>
+          <ListItem>
+            <ListItemIcon>
+              <SportsKabaddi></SportsKabaddi>
+            </ListItemIcon>
+            <ListItemText>Assault: {assaults}</ListItemText>
+          </ListItem>
+          <ListItem>
+            <ListItemIcon>
+              <DoNotStep></DoNotStep>
+            </ListItemIcon>
+            <ListItemText>Break and Enter: {breaksAndEnters}</ListItemText>
+          </ListItem>
+          <ListItem>
+            <ListItemIcon>
+              <CarCrash></CarCrash>
+            </ListItemIcon>
+            <ListItemText>Auto Theft: {autoThefts}</ListItemText>
+          </ListItem>
+          <ListItem>
+            <ListItemIcon>
+              <DirectionsRun></DirectionsRun>
+            </ListItemIcon>
+            <ListItemText>Robbery: {robberies}</ListItemText>
+          </ListItem>
+          <ListItem>
+            <ListItemIcon>
+              <AttachMoney></AttachMoney>
+            </ListItemIcon>
+            <ListItemText>Theft Over: {theftsOver}</ListItemText>
+          </ListItem>
+        </List>
+      </Box>
     </Drawer>
   );
 }

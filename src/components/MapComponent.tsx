@@ -16,7 +16,7 @@ function MapComponent({ queryFilter }: MapComponentProps) {
   return (
     <div style={{ position: "relative" }}>
       <div id="openLayersMap" style={{ height: "100%" }} className="map" />
-      <LoadingModal show={loading} />
+      {/* <LoadingModal show={loading} /> */}
     </div>
   );
 }

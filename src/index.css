@@ -17,7 +17,7 @@ body {
 /* APP */
 #root > div {
   display: grid;
-  grid-template-rows: max-content 1fr max-content;
+  grid-template-rows: max-content 1fr;
 }
 
 body {

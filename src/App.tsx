@@ -23,23 +23,26 @@ function App() {
 
   return (
     <div>
-      <AppBar position="static">
-        <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            crime_scan
-          </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+      <AppBar sx={{ position: "static" }}>
+        <Toolbar
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
+          <Box sx={{ display: "flex" }}>
+            <Typography sx={{ mr: 4 }} variant="h6" component="div">
+              crime_scan
+            </Typography>
             <Button onClick={toggleSummaryOnClick}>Summary</Button>
           </Box>
           <Typography variant="body1" component="span">
-            Currently displays all crimes commited in Toronto in:{" "}
-            {queryFilter.OCC_YEAR}
+            Toronto Crimes in: {queryFilter.OCC_YEAR}
           </Typography>
         </Toolbar>
       </AppBar>
       <MapComponent queryFilter={queryFilter} />
       <SummaryPanel open={openSummary} handleClick={toggleSummaryOnClick} />
-      <footer></footer>
     </div>
   );
 }
