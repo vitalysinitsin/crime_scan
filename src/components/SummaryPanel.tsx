@@ -57,8 +57,8 @@ function SummaryPanel({ open, handleClick }: SummaryPanelProps) {
   // filtering offence types WIP ***END
 
   return (
-    <Drawer variant="persistent" open={open} sx={{ height: "100%" }}>
-      <Box sx={{ display: "flex", justifyContent: "flex-end", mr: 1 }}>
+    <Drawer variant="persistent" open={open}>
+      <Box sx={{ display: "flex", justifyContent: "flex-end", mr: 1, mt: 8 }}>
         <IconButton onClick={handleClick}>
           <ChevronLeft></ChevronLeft>
         </IconButton>

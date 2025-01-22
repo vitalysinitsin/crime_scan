@@ -41,7 +41,8 @@ function App() {
 
   return (
     <div>
-      <AppBar sx={{ position: "static" }}>
+      {/* not perfect solution, have to find how to directly reference the drawer z-index and +1 it */}
+      <AppBar sx={{ position: "static", zIndex: 1201 }}>
         <Toolbar
           sx={{
             display: "flex",
