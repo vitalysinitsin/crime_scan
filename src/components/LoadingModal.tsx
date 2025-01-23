@@ -1,11 +1,29 @@
-function LoadingModal({ show }: { show?: boolean }) {
+import { Box, CircularProgress, Modal, Typography } from "@mui/material";
+
+function LoadingModal({ open }: { open?: boolean }) {
   return (
-    <div>
-      <div className="text-center text-white" style={{ background: "#212529" }}>
-        <div style={{ width: "3rem", height: "3rem", borderWidth: ".5rem" }} />
-        <div>Loading...</div>
-      </div>
-    </div>
+    <Modal open={!!open}>
+      <Box
+        className="text-center text-white"
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: 4,
+          position: "absolute",
+          width: 250,
+          p: 5,
+          margin: "auto",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          bgcolor: "#222222",
+        }}
+      >
+        <CircularProgress />
+        <Typography>Loading...</Typography>
+      </Box>
+    </Modal>
   );
 }
 
