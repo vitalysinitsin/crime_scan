@@ -6,7 +6,6 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  Typography,
 } from "@mui/material";
 import useCrimesContext from "../context/CrimesContext";
 import {
@@ -15,18 +14,35 @@ import {
   ChevronLeft,
   DirectionsRun,
   DoNotStep,
-  Home,
   SportsKabaddi,
 } from "@mui/icons-material";
-import { useEffect, useState } from "react";
+import {
+  TorontoMCIFeature,
+  TorontoMCIFeatureAttributes,
+} from "../models/feature";
 
 interface SummaryPanelProps {
   open: boolean;
   handleClick: () => void;
 }
 
+type SummaryList = {
+  [key: string]: TorontoMCIFeature[];
+};
+
 function SummaryPanel({ open, handleClick }: SummaryPanelProps) {
   const { crimes } = useCrimesContext();
+
+  const mcis: SummaryList = crimes.reduce((acc: SummaryList, current) => {
+    const currentMciCategory = current.attributes.MCI_CATEGORY;
+
+    return {
+      ...acc,
+      [currentMciCategory]: [...(acc[currentMciCategory] ?? []), current],
+    };
+  }, {});
+
+  console.log({ mcis });
 
   // filtering offence types WIP clean up inc***START
   const uniqueMCI = new Set(crimes.map((ftr) => ftr.attributes.MCI_CATEGORY));

@@ -1,15 +1,15 @@
-import { IFeature } from "@esri/arcgis-rest-request";
 import { createContext, useContext, useState } from "react";
+import { TorontoMCIFeature } from "../models/feature";
 
 interface CrimesContextType {
-  crimes: IFeature[];
-  setCrimes: React.Dispatch<React.SetStateAction<IFeature[]>>;
+  crimes: TorontoMCIFeature[];
+  setCrimes: React.Dispatch<React.SetStateAction<TorontoMCIFeature[]>>;
 }
 
 const CrimesContext = createContext<CrimesContextType | undefined>(undefined);
 
 function CrimesProvider({ children }: { children: React.ReactNode }) {
-  const [crimes, setCrimes] = useState<IFeature[]>([]);
+  const [crimes, setCrimes] = useState<TorontoMCIFeature[]>([]);
 
   return (
     <CrimesContext.Provider value={{ crimes, setCrimes }}>

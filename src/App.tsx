@@ -8,11 +8,10 @@ export interface QueryFilter {
 }
 
 function App() {
+  const [openSummary, setOpenSummary] = useState(false);
   const [queryFilter] = useState<QueryFilter>({
     OCC_YEAR: 2023,
   });
-
-  const [openSummary, setOpenSummary] = useState(false);
 
   const toggleSummary = () => {
     setOpenSummary(!openSummary);

@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
-import {
-  IFeature,
-  IQueryFeaturesResponse,
-  queryFeatures,
-} from "@esri/arcgis-rest-feature-service";
+import { queryFeatures } from "@esri/arcgis-rest-feature-service";
 import { QueryFilter } from "../../../App";
 import useCrimesContext from "../../../context/CrimesContext";
+import {
+  TorontoMCIFeature,
+  TorontoQueryFeaturesResponse,
+} from "../../../models/feature";
 
 const TORONTO_MCI_ESRI_SERVICE_URL =
   "https://services.arcgis.com/S9th0jAJ7bqgIRjw/arcgis/rest/services/Major_Crime_Indicators_Open_Data/FeatureServer/0";
@@ -18,7 +18,7 @@ const buildWhereClause = (filter: QueryFilter) => {
 };
 
 interface QueryState {
-  values: IFeature[];
+  values: TorontoMCIFeature[];
   resultOffset: number;
   loading?: boolean;
 }
@@ -39,7 +39,7 @@ const usePaginatedQuery = (queryFilter: QueryFilter) => {
       return;
     }
 
-    const combinePagesTogether = (page: IQueryFeaturesResponse) => {
+    const combinePagesTogether = (page: TorontoQueryFeaturesResponse) => {
       if (!page) {
         return;
       }
@@ -55,7 +55,7 @@ const usePaginatedQuery = (queryFilter: QueryFilter) => {
       url: TORONTO_MCI_ESRI_SERVICE_URL,
       where,
       resultOffset: queryState.resultOffset,
-    })) as IQueryFeaturesResponse;
+    })) as TorontoQueryFeaturesResponse;
 
     combinePagesTogether(json);
   }, [
