@@ -33,16 +33,16 @@ type SummaryList = {
 function SummaryPanel({ open, handleClick }: SummaryPanelProps) {
   const { crimes } = useCrimesContext();
 
-  const mcis: SummaryList = crimes.reduce((acc: SummaryList, current) => {
-    const currentMciCategory = current.attributes.MCI_CATEGORY;
+  // const mcis: SummaryList = crimes.reduce((acc: SummaryList, current) => {
+  //   const currentMciCategory = current.attributes.MCI_CATEGORY;
 
-    return {
-      ...acc,
-      [currentMciCategory]: [...(acc[currentMciCategory] ?? []), current],
-    };
-  }, {});
+  //   return {
+  //     ...acc,
+  //     [currentMciCategory]: [...(acc[currentMciCategory] ?? []), current],
+  //   };
+  // }, {});
 
-  console.log({ mcis });
+  // console.log({ mcis });
 
   // filtering offence types WIP clean up inc***START
   const uniqueMCI = new Set(crimes.map((ftr) => ftr.attributes.MCI_CATEGORY));
