@@ -20,6 +20,8 @@
 
     /* Completeness */
     "skipLibCheck": true /* Skip type checking all .d.ts files. */,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
 
     "lib": ["es5", "es6", "dom", "dom.iterable"]
   },

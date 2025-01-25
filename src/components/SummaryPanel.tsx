@@ -4,24 +4,12 @@ import {
   IconButton,
   List,
   ListItem,
-  ListItemIcon,
   ListItemText,
 } from "@mui/material";
 import useCrimesContext from "../context/CrimesContext";
-import {
-  AttachMoney,
-  CarCrash,
-  ChevronLeft,
-  DirectionsRun,
-  DoNotStep,
-  SportsKabaddi,
-} from "@mui/icons-material";
-import {
-  TorontoMCIFeature,
-  TorontoMCIFeatureAttributes,
-} from "../models/feature";
-import { useCallback, useEffect } from "react";
-import { render } from "@testing-library/react";
+import { ChevronLeft } from "@mui/icons-material";
+import { TorontoMCIFeature } from "../models/feature";
+import { useCallback } from "react";
 
 interface SummaryPanelProps {
   open: boolean;
