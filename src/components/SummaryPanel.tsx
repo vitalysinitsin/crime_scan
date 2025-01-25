@@ -20,6 +20,8 @@ import {
   TorontoMCIFeature,
   TorontoMCIFeatureAttributes,
 } from "../models/feature";
+import { useCallback, useEffect } from "react";
+import { render } from "@testing-library/react";
 
 interface SummaryPanelProps {
   open: boolean;
@@ -27,50 +29,37 @@ interface SummaryPanelProps {
 }
 
 type SummaryList = {
-  [key: string]: TorontoMCIFeature[];
+  [key: string]: number;
 };
 
 function SummaryPanel({ open, handleClick }: SummaryPanelProps) {
   const { crimes } = useCrimesContext();
 
-  // const mcis: SummaryList = crimes.reduce((acc: SummaryList, current) => {
-  //   const currentMciCategory = current.attributes.MCI_CATEGORY;
+  const renderCrimesByCategory = useCallback(
+    (crimes: TorontoMCIFeature[]) => {
+      const crimesByCategory = crimes.reduce((acc: SummaryList, current) => {
+        const currentMciCategory = current.attributes.MCI_CATEGORY;
 
-  //   return {
-  //     ...acc,
-  //     [currentMciCategory]: [...(acc[currentMciCategory] ?? []), current],
-  //   };
-  // }, {});
+        return {
+          ...acc,
+          [currentMciCategory]: acc[currentMciCategory]
+            ? acc[currentMciCategory] + 1
+            : 1,
+        };
+      }, {});
 
-  // console.log({ mcis });
-
-  // filtering offence types WIP clean up inc***START
-  const uniqueMCI = new Set(crimes.map((ftr) => ftr.attributes.MCI_CATEGORY));
-
-  const assaults = crimes.filter(
-    (feature) => feature.attributes.MCI_CATEGORY === "Assault"
-  ).length;
-  const breaksAndEnters = crimes.filter(
-    (feature) => feature.attributes.MCI_CATEGORY === "Break and Enter"
-  ).length;
-  const autoThefts = crimes.filter(
-    (feature) => feature.attributes.MCI_CATEGORY === "Auto Theft"
-  ).length;
-  const robberies = crimes.filter(
-    (feature) => feature.attributes.MCI_CATEGORY === "Robbery"
-  ).length;
-  const theftsOver = crimes.filter(
-    (feature) => feature.attributes.MCI_CATEGORY === "Theft Over"
-  ).length;
-
-  console.log(uniqueMCI, crimes, {
-    assaults,
-    breaksAndEnters,
-    autoThefts,
-    robberies,
-    theftsOver,
-  });
-  // filtering offence types WIP ***END
+      return Object.keys(crimesByCategory).map((mciCategory) => {
+        return (
+          <ListItem key={mciCategory}>
+            <ListItemText>
+              {mciCategory}: {crimesByCategory[mciCategory]}
+            </ListItemText>
+          </ListItem>
+        );
+      });
+    },
+    [crimes]
+  );
 
   return (
     <Drawer variant="persistent" open={open} sx={{ zIndex: 500 }}>
@@ -80,38 +69,7 @@ function SummaryPanel({ open, handleClick }: SummaryPanelProps) {
         </IconButton>
       </Box>
       <Box>
-        <List>
-          <ListItem>
-            <ListItemIcon>
-              <SportsKabaddi></SportsKabaddi>
-            </ListItemIcon>
-            <ListItemText>Assault: {assaults}</ListItemText>
-          </ListItem>
-          <ListItem>
-            <ListItemIcon>
-              <DoNotStep></DoNotStep>
-            </ListItemIcon>
-            <ListItemText>Break and Enter: {breaksAndEnters}</ListItemText>
-          </ListItem>
-          <ListItem>
-            <ListItemIcon>
-              <CarCrash></CarCrash>
-            </ListItemIcon>
-            <ListItemText>Auto Theft: {autoThefts}</ListItemText>
-          </ListItem>
-          <ListItem>
-            <ListItemIcon>
-              <DirectionsRun></DirectionsRun>
-            </ListItemIcon>
-            <ListItemText>Robbery: {robberies}</ListItemText>
-          </ListItem>
-          <ListItem>
-            <ListItemIcon>
-              <AttachMoney></AttachMoney>
-            </ListItemIcon>
-            <ListItemText>Theft Over: {theftsOver}</ListItemText>
-          </ListItem>
-        </List>
+        <List>{renderCrimesByCategory(crimes)}</List>
       </Box>
     </Drawer>
   );
