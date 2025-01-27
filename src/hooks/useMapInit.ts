@@ -115,14 +115,10 @@ const useMapInit = ({
         layers?.length &&
         layers?.length > MAXIMUM_NUMBER_OF_LAYERS_FOR_THE_MAP
       ) {
-        layers?.forEach((layer) => {
-          if (layer && layer.getClassName() === "vector-layer") {
-            mapInstanceRef.current?.removeLayer(layer);
-          }
-        });
+        layers?.pop();
       }
     };
-  }, [loading]);
+  }, [features, loading]);
 };
 
 export default useMapInit;

@@ -34,7 +34,6 @@ const usePaginatedQuery = (queryFilter: QueryFilter) => {
   useEffect(() => {
     if (!queryState.loading) {
       setCrimes(queryState.values);
-      resetQueryState();
       return;
     }
 
@@ -63,15 +62,19 @@ const usePaginatedQuery = (queryFilter: QueryFilter) => {
 
     loadFeaturePageFromServer();
   }, [
-    where,
     queryState.loading,
     queryState.resultOffset,
-    setQueryState,
+    queryState.values,
     setCrimes,
+    where,
   ]);
 
   useEffect(() => {
     setQueryState((current) => ({ ...current, loading: true }));
+
+    return () => {
+      resetQueryState();
+    };
   }, [where]);
 
   return {

@@ -23,31 +23,28 @@ type SummaryList = {
 function SummaryDrawer({ open, handleClick }: SummaryPanelProps) {
   const { crimes } = useCrimesContext();
 
-  const renderCrimesByCategory = useCallback(
-    (crimes: TorontoMCIFeature[]) => {
-      const crimesByCategory = crimes.reduce((acc: SummaryList, current) => {
-        const currentMciCategory = current.attributes.MCI_CATEGORY;
+  const renderCrimesByCategory = useCallback((crimes: TorontoMCIFeature[]) => {
+    const crimesByCategory = crimes.reduce((acc: SummaryList, current) => {
+      const currentMciCategory = current.attributes.MCI_CATEGORY;
 
-        return {
-          ...acc,
-          [currentMciCategory]: acc[currentMciCategory]
-            ? acc[currentMciCategory] + 1
-            : 1,
-        };
-      }, {});
+      return {
+        ...acc,
+        [currentMciCategory]: acc[currentMciCategory]
+          ? acc[currentMciCategory] + 1
+          : 1,
+      };
+    }, {});
 
-      return Object.keys(crimesByCategory).map((mciCategory) => {
-        return (
-          <ListItem key={mciCategory}>
-            <ListItemText>
-              {mciCategory}: {crimesByCategory[mciCategory]}
-            </ListItemText>
-          </ListItem>
-        );
-      });
-    },
-    [crimes]
-  );
+    return Object.keys(crimesByCategory).map((mciCategory) => {
+      return (
+        <ListItem key={mciCategory}>
+          <ListItemText>
+            {mciCategory}: {crimesByCategory[mciCategory]}
+          </ListItemText>
+        </ListItem>
+      );
+    });
+  }, []);
 
   return (
     <Drawer variant="persistent" open={open} sx={{ zIndex: 500 }}>
