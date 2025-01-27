@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { queryFeatures } from "@esri/arcgis-rest-feature-service";
 import { QueryFilter } from "../../../App";
 import useCrimesContext from "../../../context/CrimesContext";
@@ -6,16 +6,10 @@ import {
   TorontoMCIFeature,
   TorontoQueryFeaturesResponse,
 } from "../../../models/feature";
+import buildWhereClause from "../../utility/buildWhereClause";
 
 const TORONTO_MCI_ESRI_SERVICE_URL =
   "https://services.arcgis.com/S9th0jAJ7bqgIRjw/arcgis/rest/services/Major_Crime_Indicators_Open_Data/FeatureServer/0";
-
-const buildWhereClause = (filter: QueryFilter) => {
-  return Object.entries(filter)
-    .filter(([key, value]) => !!value)
-    .map(([key, value]) => `${key} = '${value}'`)
-    .join(" AND ");
-};
 
 interface QueryState {
   values: TorontoMCIFeature[];
@@ -24,40 +18,50 @@ interface QueryState {
 }
 
 const usePaginatedQuery = (queryFilter: QueryFilter) => {
-  const where = buildWhereClause(queryFilter);
-  const { setCrimes } = useCrimesContext();
-
   const [queryState, setQueryState] = useState<QueryState>({
     values: [],
     resultOffset: 0,
-    loading: true,
+    loading: false,
   });
 
-  const loadFeaturePageFromServer = useCallback(async () => {
+  const where = buildWhereClause(queryFilter);
+  const { setCrimes } = useCrimesContext();
+
+  const resetQueryState = () => {
+    setQueryState({ values: [], resultOffset: 0, loading: false });
+  };
+
+  useEffect(() => {
     if (!queryState.loading) {
       setCrimes(queryState.values);
+      resetQueryState();
       return;
     }
 
-    const combinePagesTogether = (page: TorontoQueryFeaturesResponse) => {
-      if (!page) {
-        return;
-      }
+    const loadFeaturePageFromServer = async () => {
+      const combinePagesTogether = (page: TorontoQueryFeaturesResponse) => {
+        if (!page) {
+          return;
+        }
 
-      setQueryState((current) => ({
-        values: [...current.values, ...page.features],
-        resultOffset: current.resultOffset + page.features.length,
-        loading: page.exceededTransferLimit,
-      }));
+        setQueryState((current) => ({
+          ...current,
+          values: [...current.values, ...page.features],
+          resultOffset: current.resultOffset + page.features.length,
+          loading: page.exceededTransferLimit,
+        }));
+      };
+
+      const json = (await queryFeatures({
+        url: TORONTO_MCI_ESRI_SERVICE_URL,
+        where,
+        resultOffset: queryState.resultOffset,
+      })) as TorontoQueryFeaturesResponse;
+
+      combinePagesTogether(json);
     };
 
-    const json = (await queryFeatures({
-      url: TORONTO_MCI_ESRI_SERVICE_URL,
-      where,
-      resultOffset: queryState.resultOffset,
-    })) as TorontoQueryFeaturesResponse;
-
-    combinePagesTogether(json);
+    loadFeaturePageFromServer();
   }, [
     where,
     queryState.loading,
@@ -67,8 +71,8 @@ const usePaginatedQuery = (queryFilter: QueryFilter) => {
   ]);
 
   useEffect(() => {
-    loadFeaturePageFromServer();
-  }, [loadFeaturePageFromServer]);
+    setQueryState((current) => ({ ...current, loading: true }));
+  }, [where]);
 
   return {
     features: queryState.values,

@@ -17,6 +17,7 @@ import Stroke from "ol/style/Stroke";
 import { IFeature } from "@esri/arcgis-rest-request";
 
 const DEFAULT_CENTER = fromLonLat([-79.41636, 43.76681]);
+const MAXIMUM_NUMBER_OF_LAYERS_FOR_THE_MAP = 2;
 
 const useMapInit = ({
   features,
@@ -33,7 +34,7 @@ const useMapInit = ({
       const map = new Map({
         target: "openLayersMap",
         view: new View({ center: DEFAULT_CENTER, zoom: 11 }),
-        layers: [new TileLayer({ source: new OSM() })],
+        layers: [new TileLayer({ source: new OSM(), className: "tile-layer" })],
       });
 
       mapInstanceRef.current = map;
@@ -84,6 +85,7 @@ const useMapInit = ({
 
       const clusterLayer = new VectorLayer({
         source: clusterSource,
+        className: "vector-layer",
         style: (feature) => {
           const size = feature.get("features").length;
           let style = markerStyle;
@@ -106,6 +108,21 @@ const useMapInit = ({
 
       mapInstanceRef.current.addLayer(clusterLayer);
     }
+
+    return () => {
+      const layers = mapInstanceRef.current?.getLayers().getArray();
+      if (
+        layers?.length &&
+        layers?.length > MAXIMUM_NUMBER_OF_LAYERS_FOR_THE_MAP
+      ) {
+        layers?.forEach((layer) => {
+          if (layer && layer.getClassName() === "vector-layer") {
+            mapInstanceRef.current?.removeLayer(layer);
+          }
+        });
+      }
+      console.log(mapInstanceRef.current?.getLayers().getArray());
+    };
   }, [loading]);
 };
 

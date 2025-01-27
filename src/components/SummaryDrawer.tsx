@@ -20,7 +20,7 @@ type SummaryList = {
   [key: string]: number;
 };
 
-function SummaryPanel({ open, handleClick }: SummaryPanelProps) {
+function SummaryDrawer({ open, handleClick }: SummaryPanelProps) {
   const { crimes } = useCrimesContext();
 
   const renderCrimesByCategory = useCallback(
@@ -63,4 +63,4 @@ function SummaryPanel({ open, handleClick }: SummaryPanelProps) {
   );
 }
 
-export default SummaryPanel;
+export default SummaryDrawer;

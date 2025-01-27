@@ -12,11 +12,16 @@ import { Menu as MenuIcon } from "@mui/icons-material";
 import { useState } from "react";
 
 interface NavbarProps {
-  toggleSummary: () => void;
+  toggleSummaryDrawer: () => void;
+  toggleFilterDrawer: () => void;
   year: number;
 }
 
-function Navbar({ toggleSummary, year }: NavbarProps) {
+function Navbar({
+  toggleFilterDrawer,
+  toggleSummaryDrawer,
+  year,
+}: NavbarProps) {
   const [openHamburgerMenu, setOpenHamburgerMenu] =
     useState<null | HTMLElement>(null);
 
@@ -48,11 +53,19 @@ function Navbar({ toggleSummary, year }: NavbarProps) {
           >
             <MenuItem
               onClick={() => {
-                toggleSummary();
+                toggleSummaryDrawer();
                 handleBarMenuClose();
               }}
             >
               <Typography>Summary</Typography>
+            </MenuItem>
+            <MenuItem
+              onClick={() => {
+                toggleFilterDrawer();
+                handleBarMenuClose();
+              }}
+            >
+              <Typography>Filter</Typography>
             </MenuItem>
           </Menu>
         </Box>
@@ -60,7 +73,8 @@ function Navbar({ toggleSummary, year }: NavbarProps) {
           <Typography sx={{ mr: 4 }} variant="h6" component="div">
             crime_scan
           </Typography>
-          <Button onClick={toggleSummary}>Summary</Button>
+          <Button onClick={toggleSummaryDrawer}>Summary</Button>
+          <Button onClick={toggleFilterDrawer}>Filter</Button>
         </Box>
         <Typography variant="body1" component="span">
           Toronto Crimes in: {year}

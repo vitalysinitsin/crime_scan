@@ -1,27 +1,48 @@
 import { useState } from "react";
 import MapComponent from "./components/MapComponent";
-import SummaryPanel from "./components/SummaryPanel";
+import SummaryDrawer from "./components/SummaryDrawer";
 import Navbar from "./components/Navbar";
+import FilterDrawer from "./components/FilterDrawer";
 export interface QueryFilter {
   OCC_YEAR: number;
   DIVISION?: string | null;
 }
 
 function App() {
-  const [openSummary, setOpenSummary] = useState(false);
-  const [queryFilter] = useState<QueryFilter>({
+  const [openSummaryDrawer, setOpenSummaryDrawer] = useState(false);
+  const [openFilterDrawer, setOpenFilterDrawer] = useState(false);
+  const [queryFilter, setQueryFilter] = useState<QueryFilter>({
     OCC_YEAR: 2023,
   });
 
-  const toggleSummary = () => {
-    setOpenSummary(!openSummary);
+  const toggleSummaryDrawer = () => {
+    setOpenSummaryDrawer((current) => !current);
+    setOpenFilterDrawer(false);
+  };
+
+  const toggleFilterDrawer = () => {
+    setOpenFilterDrawer((current) => !current);
+    setOpenSummaryDrawer(false);
   };
 
   return (
     <div>
-      <Navbar toggleSummary={toggleSummary} year={queryFilter.OCC_YEAR} />
+      <Navbar
+        toggleSummaryDrawer={toggleSummaryDrawer}
+        toggleFilterDrawer={toggleFilterDrawer}
+        year={queryFilter.OCC_YEAR}
+      />
       <MapComponent queryFilter={queryFilter} />
-      <SummaryPanel open={openSummary} handleClick={toggleSummary} />
+      <SummaryDrawer
+        open={openSummaryDrawer}
+        handleClick={toggleSummaryDrawer}
+      />
+      <FilterDrawer
+        open={openFilterDrawer}
+        handleClick={toggleFilterDrawer}
+        setQueryFilter={setQueryFilter}
+        queryFilter={queryFilter}
+      />
     </div>
   );
 }
