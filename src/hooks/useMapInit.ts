@@ -121,7 +121,6 @@ const useMapInit = ({
           }
         });
       }
-      console.log(mapInstanceRef.current?.getLayers().getArray());
     };
   }, [loading]);
 };
