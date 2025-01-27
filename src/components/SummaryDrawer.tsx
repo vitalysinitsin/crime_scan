@@ -35,15 +35,17 @@ function SummaryDrawer({ open, handleClick }: SummaryPanelProps) {
       };
     }, {});
 
-    return Object.keys(crimesByCategory).map((mciCategory) => {
-      return (
-        <ListItem key={mciCategory}>
-          <ListItemText>
-            {mciCategory}: {crimesByCategory[mciCategory]}
-          </ListItemText>
-        </ListItem>
-      );
-    });
+    return Object.keys(crimesByCategory)
+      .sort()
+      .map((mciCategory) => {
+        return (
+          <ListItem key={mciCategory}>
+            <ListItemText>
+              {mciCategory}: {crimesByCategory[mciCategory]}
+            </ListItemText>
+          </ListItem>
+        );
+      });
   }, []);
 
   return (
