@@ -25,12 +25,24 @@ function FilterDrawer({
 }: FilterDrawerProps) {
   return (
     <Drawer variant="persistent" open={open} sx={{ zIndex: 500 }}>
-      <Box sx={{ display: "flex", justifyContent: "flex-end", mr: 1, mt: 8 }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "flex-end",
+          mr: 1,
+          mt: 8,
+          width: "20em",
+        }}
+      >
         <IconButton onClick={handleClick}>
           <ChevronLeft></ChevronLeft>
         </IconButton>
       </Box>
-      <Box>
+      <Box
+        sx={{
+          padding: "1em",
+        }}
+      >
         <FormControl fullWidth>
           <InputLabel id="demo-simple-select-label">Age</InputLabel>
           <Select
