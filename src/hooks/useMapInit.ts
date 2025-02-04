@@ -15,6 +15,7 @@ import Fill from "ol/style/Fill";
 import Text from "ol/style/Text";
 import Stroke from "ol/style/Stroke";
 import { IFeature } from "@esri/arcgis-rest-request";
+import { createEmpty, extend } from "ol/extent";
 
 const DEFAULT_CENTER = fromLonLat([-79.41636, 43.76681]);
 const MAXIMUM_NUMBER_OF_LAYERS_FOR_THE_MAP = 2;
@@ -42,10 +43,24 @@ const useMapInit = ({
       // interactions
       map.on("click", (event) => {
         map.forEachFeatureAtPixel(event.pixel, (feature) => {
-          const features = feature.get("features");
+          const features: Feature[] = feature.get("features");
 
-          if (features?.length) {
+          if (features?.length > 1) {
             console.log("Clicked the cluster", features);
+            const extent = createEmpty();
+
+            features.forEach((ftr) => {
+              const geometry = ftr.getGeometry();
+
+              if (geometry) {
+                extend(extent, geometry.getExtent());
+              }
+            });
+
+            const view = map.getView();
+            view.fit(extent, { duration: 500, padding: [20, 20, 20, 20] });
+          } else if (features?.length === 1) {
+            console.log("Clicked the marker", features);
           }
         });
       });
