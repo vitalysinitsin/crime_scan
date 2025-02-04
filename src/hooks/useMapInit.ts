@@ -42,7 +42,7 @@ const useMapInit = ({
 
       // interactions
       map.on("click", (event) => {
-        map.forEachFeatureAtPixel(event.pixel, (feature) => {
+        const f = map.forEachFeatureAtPixel(event.pixel, (feature) => {
           const features: Feature[] = feature.get("features");
 
           if (features?.length > 1) {
@@ -61,6 +61,9 @@ const useMapInit = ({
             view.fit(extent, { duration: 500, padding: [20, 20, 20, 20] });
           } else if (features?.length === 1) {
             console.log("Clicked the marker", features);
+          } else {
+            console.log("Clicked on the map");
+            map.setView(new View({ center: DEFAULT_CENTER, zoom: 11 }));
           }
         });
       });
