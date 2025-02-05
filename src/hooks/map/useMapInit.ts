@@ -103,7 +103,7 @@ const useMapInit = ({
 
       const clusterSource = new Cluster({
         source: vectorSource,
-        distance: 40,
+        distance: 75,
       });
 
       const clusterLayer = new VectorLayer({

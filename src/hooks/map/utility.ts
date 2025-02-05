@@ -10,7 +10,7 @@ import { SimpleGeometry } from "ol/geom";
 export const generateDefaultClusterStyle = (size: number) => {
   return new Style({
     image: new Circle({
-      radius: 10,
+      radius: 15,
       fill: new Fill({ color: "rgb(70, 70, 255)" }),
       stroke: new Stroke({ color: "white", width: 2 }),
     }),
@@ -36,7 +36,7 @@ export const fitTheMapViewToDisplayFeatures = (
   });
 
   const view = map.getView();
-  view.fit(extent, { duration: 500, padding: [20, 20, 20, 20] });
+  view.fit(extent, { duration: 500, padding: [100, 100, 100, 100] });
 };
 
 export const allFeaturesInSameSpot = (features: Feature[]): boolean => {
