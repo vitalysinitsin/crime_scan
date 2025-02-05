@@ -5,6 +5,7 @@ import Stroke from "ol/style/Stroke";
 import Style from "ol/style/Style";
 import { Feature, Map } from "ol";
 import { createEmpty, extend } from "ol/extent";
+import { SimpleGeometry } from "ol/geom";
 
 export const generateDefaultClusterStyle = (size: number) => {
   return new Style({
@@ -33,4 +34,22 @@ export function fitTheMapViewToDisplayFeatures(features: Feature[], map: Map) {
 
   const view = map.getView();
   view.fit(extent, { duration: 500, padding: [20, 20, 20, 20] });
+}
+
+export function allFeaturesInSameSpot(features: Feature[]): boolean {
+  const firstGeometry = features[0].getGeometry();
+
+  if (!(firstGeometry instanceof SimpleGeometry)) {
+    return false;
+  }
+
+  const firstCoords = firstGeometry?.getCoordinates();
+
+  if (firstCoords) {
+    return features.every((f) =>
+      f.getGeometry()?.intersectsCoordinate(firstCoords)
+    );
+  }
+
+  return false;
 }

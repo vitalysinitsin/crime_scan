@@ -14,6 +14,7 @@ import { IFeature } from "@esri/arcgis-rest-request";
 import {
   fitTheMapViewToDisplayFeatures,
   generateDefaultClusterStyle,
+  allFeaturesInSameSpot,
 } from "./utility";
 
 const DEFAULT_CENTER = fromLonLat([-79.41636, 43.76681]);
@@ -58,11 +59,11 @@ const useMapInit = ({
           if (clickedFeatures.length > 1) {
             // display the summary of the cluster info here
 
-            fitTheMapViewToDisplayFeatures(clickedFeatures, map);
+            if (!allFeaturesInSameSpot(clickedFeatures)) {
+              fitTheMapViewToDisplayFeatures(clickedFeatures, map);
+            }
           } else {
-            console.log(
-              "clicked the single marker. Dont zoom in but show data."
-            );
+            // display the summary of the single feature here
           }
         } else {
           console.log("clicked a map");
