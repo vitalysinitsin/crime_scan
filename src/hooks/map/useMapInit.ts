@@ -5,17 +5,14 @@ import { Cluster, OSM, Vector } from "ol/source";
 import { fromLonLat } from "ol/proj";
 import Icon from "ol/style/Icon";
 import Style from "ol/style/Style";
-import Circle from "ol/style/Circle";
 import VectorLayer from "ol/layer/Vector";
 import { Point } from "ol/geom";
 import Feature from "ol/Feature";
 import TileLayer from "ol/layer/Tile";
-import Pin from "../assets/pin.svg";
-import Fill from "ol/style/Fill";
-import Text from "ol/style/Text";
-import Stroke from "ol/style/Stroke";
+import Pin from "../../assets/pin.svg";
 import { IFeature } from "@esri/arcgis-rest-request";
 import { createEmpty, extend } from "ol/extent";
+import { generateDefaultClusterStyle } from "./utility";
 
 const DEFAULT_CENTER = fromLonLat([-79.41636, 43.76681]);
 const DEFAULT_ZOOM = 11;
@@ -43,16 +40,22 @@ const useMapInit = ({
 
       // interactions
       map.on("click", (event) => {
-        let clickedOnFeature = false;
-        map.forEachFeatureAtPixel(event.pixel, (feature) => {
-          const features: Feature[] = feature.get("features");
+        const clickedMarker = map.forEachFeatureAtPixel(
+          event.pixel,
+          (feature) => {
+            if (feature.get("features").length > 0) {
+              console.log("Clicked the cluster", feature.get("features"));
+              return feature;
+            }
+          }
+        );
 
-          if (features?.length > 1) {
-            clickedOnFeature = true;
-            console.log("Clicked the cluster", features);
-            const extent = createEmpty();
+        if (clickedMarker) {
+          const clickedFeatures: Feature[] = clickedMarker.get("features");
+          const extent = createEmpty();
 
-            features.forEach((ftr) => {
+          if (clickedFeatures.length > 1) {
+            clickedFeatures.forEach((ftr) => {
               const geometry = ftr.getGeometry();
 
               if (geometry) {
@@ -62,12 +65,12 @@ const useMapInit = ({
 
             const view = map.getView();
             view.fit(extent, { duration: 500, padding: [20, 20, 20, 20] });
-          } else if (features?.length === 1) {
-            console.log("Clicked the marker", features); // for future reference
+          } else {
+            console.log(
+              "clicked the single marker. Dont zoom in but show data."
+            );
           }
-        });
-
-        if (!clickedOnFeature) {
+        } else {
           console.log("clicked a map");
 
           map.getView().animate({
@@ -118,17 +121,7 @@ const useMapInit = ({
           const size = feature.get("features").length;
           let style = markerStyle;
           if (size > 1) {
-            style = new Style({
-              image: new Circle({
-                radius: 10,
-                fill: new Fill({ color: "rgb(70, 70, 255)" }),
-                stroke: new Stroke({ color: "white", width: 2 }),
-              }),
-              text: new Text({
-                text: size.toString(),
-                fill: new Fill({ color: "white" }),
-              }),
-            });
+            style = generateDefaultClusterStyle(size);
           }
           return style;
         },

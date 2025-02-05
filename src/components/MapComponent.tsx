@@ -1,5 +1,5 @@
 import LoadingModal from "./LoadingModal";
-import useMapInit from "../hooks/useMapInit";
+import useMapInit from "../hooks/map/useMapInit";
 import usePaginatedQuery from "../api/canada/toronto/usePaginatedCrimesQuery";
 import { QueryFilter } from "../App";
 
