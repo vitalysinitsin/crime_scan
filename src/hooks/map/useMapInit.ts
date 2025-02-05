@@ -47,7 +47,6 @@ const useMapInit = ({
           event.pixel,
           (feature) => {
             if (feature.get("features").length > 0) {
-              console.log("Clicked the cluster", feature.get("features"));
               return feature;
             }
           }
@@ -66,8 +65,6 @@ const useMapInit = ({
             // display the summary of the single feature here
           }
         } else {
-          console.log("clicked a map");
-
           map.getView().animate({
             center: DEFAULT_CENTER,
             zoom: DEFAULT_ZOOM,

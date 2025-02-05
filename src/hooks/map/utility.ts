@@ -21,7 +21,10 @@ export const generateDefaultClusterStyle = (size: number) => {
   });
 };
 
-export function fitTheMapViewToDisplayFeatures(features: Feature[], map: Map) {
+export const fitTheMapViewToDisplayFeatures = (
+  features: Feature[],
+  map: Map
+) => {
   const extent = createEmpty();
 
   features.forEach((ftr) => {
@@ -34,9 +37,9 @@ export function fitTheMapViewToDisplayFeatures(features: Feature[], map: Map) {
 
   const view = map.getView();
   view.fit(extent, { duration: 500, padding: [20, 20, 20, 20] });
-}
+};
 
-export function allFeaturesInSameSpot(features: Feature[]): boolean {
+export const allFeaturesInSameSpot = (features: Feature[]): boolean => {
   const firstGeometry = features[0].getGeometry();
 
   if (!(firstGeometry instanceof SimpleGeometry)) {
@@ -52,4 +55,4 @@ export function allFeaturesInSameSpot(features: Feature[]): boolean {
   }
 
   return false;
-}
+};
