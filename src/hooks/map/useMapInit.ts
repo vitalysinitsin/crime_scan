@@ -11,8 +11,10 @@ import Feature from "ol/Feature";
 import TileLayer from "ol/layer/Tile";
 import Pin from "../../assets/pin.svg";
 import { IFeature } from "@esri/arcgis-rest-request";
-import { createEmpty, extend } from "ol/extent";
-import { generateDefaultClusterStyle } from "./utility";
+import {
+  fitTheMapViewToDisplayFeatures,
+  generateDefaultClusterStyle,
+} from "./utility";
 
 const DEFAULT_CENTER = fromLonLat([-79.41636, 43.76681]);
 const DEFAULT_ZOOM = 11;
@@ -52,19 +54,11 @@ const useMapInit = ({
 
         if (clickedMarker) {
           const clickedFeatures: Feature[] = clickedMarker.get("features");
-          const extent = createEmpty();
 
           if (clickedFeatures.length > 1) {
-            clickedFeatures.forEach((ftr) => {
-              const geometry = ftr.getGeometry();
+            // display the summary of the cluster info here
 
-              if (geometry) {
-                extend(extent, geometry.getExtent());
-              }
-            });
-
-            const view = map.getView();
-            view.fit(extent, { duration: 500, padding: [20, 20, 20, 20] });
+            fitTheMapViewToDisplayFeatures(clickedFeatures, map);
           } else {
             console.log(
               "clicked the single marker. Dont zoom in but show data."

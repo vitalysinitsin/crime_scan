@@ -3,6 +3,8 @@ import Fill from "ol/style/Fill";
 import Text from "ol/style/Text";
 import Stroke from "ol/style/Stroke";
 import Style from "ol/style/Style";
+import { Feature, Map } from "ol";
+import { createEmpty, extend } from "ol/extent";
 
 export const generateDefaultClusterStyle = (size: number) => {
   return new Style({
@@ -18,13 +20,17 @@ export const generateDefaultClusterStyle = (size: number) => {
   });
 };
 
-export function areCoordinatesClose(
-  coord1: [number, number],
-  coord2: [number, number],
-  tolerance = 0.00001
-) {
-  return (
-    Math.abs(coord1[0] - coord2[0]) < tolerance &&
-    Math.abs(coord1[1] - coord2[1]) < tolerance
-  );
+export function fitTheMapViewToDisplayFeatures(features: Feature[], map: Map) {
+  const extent = createEmpty();
+
+  features.forEach((ftr) => {
+    const geometry = ftr.getGeometry();
+
+    if (geometry) {
+      extend(extent, geometry.getExtent());
+    }
+  });
+
+  const view = map.getView();
+  view.fit(extent, { duration: 500, padding: [20, 20, 20, 20] });
 }
