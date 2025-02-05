@@ -18,6 +18,7 @@ import { IFeature } from "@esri/arcgis-rest-request";
 import { createEmpty, extend } from "ol/extent";
 
 const DEFAULT_CENTER = fromLonLat([-79.41636, 43.76681]);
+const DEFAULT_ZOOM = 11;
 const MAXIMUM_NUMBER_OF_LAYERS_FOR_THE_MAP = 2;
 
 const useMapInit = ({
@@ -34,7 +35,7 @@ const useMapInit = ({
     if (!mapInstanceRef.current) {
       const map = new Map({
         target: "openLayersMap",
-        view: new View({ center: DEFAULT_CENTER, zoom: 11 }),
+        view: new View({ center: DEFAULT_CENTER, zoom: DEFAULT_ZOOM }),
         layers: [new TileLayer({ source: new OSM(), className: "tile-layer" })],
       });
 
@@ -42,10 +43,12 @@ const useMapInit = ({
 
       // interactions
       map.on("click", (event) => {
-        const f = map.forEachFeatureAtPixel(event.pixel, (feature) => {
+        let clickedOnFeature = false;
+        map.forEachFeatureAtPixel(event.pixel, (feature) => {
           const features: Feature[] = feature.get("features");
 
           if (features?.length > 1) {
+            clickedOnFeature = true;
             console.log("Clicked the cluster", features);
             const extent = createEmpty();
 
@@ -60,12 +63,19 @@ const useMapInit = ({
             const view = map.getView();
             view.fit(extent, { duration: 500, padding: [20, 20, 20, 20] });
           } else if (features?.length === 1) {
-            console.log("Clicked the marker", features);
-          } else {
-            console.log("Clicked on the map");
-            map.setView(new View({ center: DEFAULT_CENTER, zoom: 11 }));
+            console.log("Clicked the marker", features); // for future reference
           }
         });
+
+        if (!clickedOnFeature) {
+          console.log("clicked a map");
+
+          map.getView().animate({
+            center: DEFAULT_CENTER,
+            zoom: DEFAULT_ZOOM,
+            duration: 400,
+          });
+        }
       });
     }
   }, []);
