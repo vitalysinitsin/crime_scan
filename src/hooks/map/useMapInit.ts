@@ -70,6 +70,10 @@ const useMapInit = ({
           });
         }
       });
+      map.on("pointermove", (e) => {
+        const feature = map.forEachFeatureAtPixel(e.pixel, (f) => f);
+        map.getTargetElement().style.cursor = feature ? "pointer" : "";
+      });
     }
   }, []);
 
