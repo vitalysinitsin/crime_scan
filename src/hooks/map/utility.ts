@@ -7,6 +7,16 @@ import { Feature, Map } from "ol";
 import { createEmpty, extend } from "ol/extent";
 import { SimpleGeometry } from "ol/geom";
 
+export const generateDefeaultMarkerStyle = () => {
+  return new Style({
+    image: new Circle({
+      radius: 12,
+      fill: new Fill({ color: "rgb(70, 70, 255)" }),
+      stroke: new Stroke({ color: "white", width: 2 }),
+    }),
+  });
+};
+
 export const generateDefaultClusterStyle = (size: number) => {
   return new Style({
     image: new Circle({

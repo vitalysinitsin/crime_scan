@@ -3,18 +3,16 @@ import { useEffect, useRef } from "react";
 import { Map, View } from "ol";
 import { Cluster, OSM, Vector } from "ol/source";
 import { fromLonLat } from "ol/proj";
-import Icon from "ol/style/Icon";
-import Style from "ol/style/Style";
 import VectorLayer from "ol/layer/Vector";
 import { Point } from "ol/geom";
 import Feature from "ol/Feature";
 import TileLayer from "ol/layer/Tile";
-import Pin from "../../assets/pin.svg";
 import { IFeature } from "@esri/arcgis-rest-request";
 import {
   fitTheMapViewToDisplayFeatures,
   generateDefaultClusterStyle,
   allFeaturesInSameSpot,
+  generateDefeaultMarkerStyle,
 } from "./utility";
 
 const DEFAULT_CENTER = fromLonLat([-79.41636, 43.76681]);
@@ -77,14 +75,6 @@ const useMapInit = ({
 
   useEffect(() => {
     if (!loading && features && mapInstanceRef.current) {
-      const markerStyle = new Style({
-        image: new Icon({
-          anchor: [0.5, 1],
-          src: Pin,
-          width: 30,
-        }),
-      });
-
       const OLFeatures = features.map((ftr) => {
         const point = new Point(
           fromLonLat([ftr.attributes.LONG_WGS84, ftr.attributes.LAT_WGS84])
@@ -92,8 +82,8 @@ const useMapInit = ({
         const feature = new Feature({
           geometry: point,
           name: ftr.attributes.EVENT_UNIQUE_ID,
+          style: generateDefeaultMarkerStyle(),
         });
-        feature.setStyle(markerStyle);
         return feature;
       });
 
@@ -111,7 +101,7 @@ const useMapInit = ({
         className: "vector-layer",
         style: (feature) => {
           const size = feature.get("features").length;
-          let style = markerStyle;
+          let style = generateDefeaultMarkerStyle();
           if (size > 1) {
             style = generateDefaultClusterStyle(size);
           }
