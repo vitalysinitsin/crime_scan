@@ -1,10 +1,14 @@
 import {
   Box,
+  Button,
+  ButtonBase,
   Drawer,
   IconButton,
   List,
   ListItem,
+  ListItemButton,
   ListItemText,
+  Typography,
 } from "@mui/material";
 import useCrimesContext from "../context/CrimesContext";
 import { ChevronLeft } from "@mui/icons-material";
@@ -40,9 +44,10 @@ function SummaryDrawer({ open, handleClick }: SummaryPanelProps) {
       .map((mciCategory) => {
         return (
           <ListItem key={mciCategory}>
-            <ListItemText>
-              {mciCategory}: {crimesByCategory[mciCategory]}
-            </ListItemText>
+            <ListItemButton>
+              <Typography variant="h6">{mciCategory}:</Typography>
+              <Typography>{crimesByCategory[mciCategory]}</Typography>
+            </ListItemButton>
           </ListItem>
         );
       });
