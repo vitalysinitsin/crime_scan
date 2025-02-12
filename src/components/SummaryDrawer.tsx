@@ -1,13 +1,10 @@
 import {
   Box,
-  Button,
-  ButtonBase,
   Drawer,
   IconButton,
   List,
   ListItem,
   ListItemButton,
-  ListItemText,
   Typography,
 } from "@mui/material";
 import useCrimesContext from "../context/CrimesContext";
