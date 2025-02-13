@@ -31,6 +31,7 @@ function FilterDrawer({
           justifyContent: "flex-end",
           mr: 1,
           mt: 8,
+          padding: "1em",
           width: "20em",
         }}
       >
@@ -44,12 +45,11 @@ function FilterDrawer({
         }}
       >
         <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-label">Age</InputLabel>
+          <InputLabel id="filter-year-select-label">Year</InputLabel>
           <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
+            labelId="filter-year-select-label"
+            id="filter-year-select"
             value={queryFilter.OCC_YEAR}
-            label="Year"
             onChange={(e) =>
               setQueryFilter((current) => ({
                 ...current,
