@@ -41,8 +41,14 @@ function SummaryDrawer({ open, handleClick }: SummaryPanelProps) {
       .map((mciCategory) => {
         return (
           <ListItem key={mciCategory}>
-            <ListItemButton>
-              <Typography variant="h6">{mciCategory}:</Typography>
+            <ListItemButton
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-start",
+              }}
+            >
+              <Typography variant="h6">{mciCategory}</Typography>
               <Typography>{crimesByCategory[mciCategory]}</Typography>
             </ListItemButton>
           </ListItem>
@@ -66,12 +72,8 @@ function SummaryDrawer({ open, handleClick }: SummaryPanelProps) {
           <ChevronLeft></ChevronLeft>
         </IconButton>
       </Box>
-      <Box
-        sx={{
-          padding: "1em",
-        }}
-      >
-        <List>{renderCrimesByCategory(crimes)}</List>
+      <Box>
+        <List sx={{ width: "100%" }}>{renderCrimesByCategory(crimes)}</List>
       </Box>
     </Drawer>
   );
