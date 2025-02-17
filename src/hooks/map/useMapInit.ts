@@ -1,6 +1,6 @@
 import "ol/ol.css";
 import { useEffect, useRef } from "react";
-import { Map, View } from "ol";
+import { Map, Overlay, View } from "ol";
 import { Cluster, OSM, Vector } from "ol/source";
 import { fromLonLat } from "ol/proj";
 import VectorLayer from "ol/layer/Vector";
@@ -35,6 +35,8 @@ const useMapInit = ({
         target: "openLayersMap",
         view: new View({ center: DEFAULT_CENTER, zoom: DEFAULT_ZOOM }),
         layers: [new TileLayer({ source: new OSM(), className: "tile-layer" })],
+        // setup for an overlay popup in the future
+        overlays: [new Overlay({})],
       });
 
       mapInstanceRef.current = map;
@@ -54,13 +56,14 @@ const useMapInit = ({
           const clickedFeatures: Feature[] = clickedMarker.get("features");
 
           if (clickedFeatures.length > 1) {
-            // display the summary of the cluster info here
-
             if (!allFeaturesInSameSpot(clickedFeatures)) {
               fitTheMapViewToDisplayFeatures(clickedFeatures, map);
             }
+            // display the summary of the cluster info here
+            console.log("cluster", clickedFeatures);
           } else {
             // display the summary of the single feature here
+            console.log("single", clickedFeatures);
           }
         } else {
           map.getView().animate({

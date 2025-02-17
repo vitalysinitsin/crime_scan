@@ -49,6 +49,7 @@ function FilterDrawer({
           <Select
             labelId="filter-year-select-label"
             id="filter-year-select"
+            label="Year"
             value={queryFilter.OCC_YEAR}
             onChange={(e) =>
               setQueryFilter((current) => ({
