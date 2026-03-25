@@ -9,7 +9,7 @@ export type TorontoMCIFeatureAttributes = {
   LAT_WGS84: number;
   LOCATION_TYPE: string;
   LONG_WGS84: number;
-  MCI_CATEGORY: string;
+  CSI_CATEGORY: string;
   NEIGHBOURHOOD_140: string;
   NEIGHBOURHOOD_158: string;
   OBJECTID: number;

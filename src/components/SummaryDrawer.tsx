@@ -26,21 +26,20 @@ function SummaryDrawer({ open, handleClick }: SummaryPanelProps) {
 
   const renderCrimesByCategory = useCallback((crimes: TorontoMCIFeature[]) => {
     const crimesByCategory = crimes.reduce((acc: SummaryList, current) => {
-      const currentMciCategory = current.attributes.MCI_CATEGORY;
+      const category =
+        current.attributes.CSI_CATEGORY?.trim() || "Unknown";
 
       return {
         ...acc,
-        [currentMciCategory]: acc[currentMciCategory]
-          ? acc[currentMciCategory] + 1
-          : 1,
+        [category]: acc[category] ? acc[category] + 1 : 1,
       };
     }, {});
 
     return Object.keys(crimesByCategory)
       .sort()
-      .map((mciCategory) => {
+      .map((category) => {
         return (
-          <ListItem key={mciCategory}>
+          <ListItem key={category}>
             <ListItemButton
               sx={{
                 display: "flex",
@@ -48,8 +47,8 @@ function SummaryDrawer({ open, handleClick }: SummaryPanelProps) {
                 alignItems: "flex-start",
               }}
             >
-              <Typography variant="h6">{mciCategory}</Typography>
-              <Typography>{crimesByCategory[mciCategory]}</Typography>
+              <Typography variant="h6">{category}</Typography>
+              <Typography>{crimesByCategory[category]}</Typography>
             </ListItemButton>
           </ListItem>
         );
