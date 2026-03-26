@@ -12,7 +12,7 @@ function App() {
   const [openSummaryDrawer, setOpenSummaryDrawer] = useState(false);
   const [openFilterDrawer, setOpenFilterDrawer] = useState(false);
   const [queryFilter, setQueryFilter] = useState<QueryFilter>({
-    OCC_YEAR: 2023,
+    OCC_YEAR: 2025,
   });
 
   const toggleSummaryDrawer = () => {
