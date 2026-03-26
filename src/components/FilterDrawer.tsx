@@ -24,26 +24,17 @@ function FilterDrawer({
   setQueryFilter,
 }: FilterDrawerProps) {
   return (
-    <Drawer variant="persistent" open={open} sx={{ zIndex: 500 }}>
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "flex-end",
-          mr: 1,
-          mt: 8,
-          padding: "1em",
-          width: "20em",
-        }}
-      >
+    <Drawer
+      variant="persistent"
+      open={open}
+      PaperProps={{ className: "!z-[500]" }}
+    >
+      <Box className="mr-2 mt-16 flex w-[20em] justify-end p-[1em]">
         <IconButton onClick={handleClick}>
           <ChevronLeft></ChevronLeft>
         </IconButton>
       </Box>
-      <Box
-        sx={{
-          padding: "1em",
-        }}
-      >
+      <Box className="p-[1em]">
         <FormControl fullWidth>
           <InputLabel id="filter-year-select-label">Year</InputLabel>
           <Select

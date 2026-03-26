@@ -41,30 +41,12 @@ function SummaryDrawer({ open, handleClick }: SummaryPanelProps) {
           const color = getCategoryColor(categoryColorMap, category);
           return (
             <ListItem key={category}>
-              <ListItemButton
-                sx={{
-                  display: "flex",
-                  flexDirection: "row",
-                  alignItems: "center",
-                  gap: 1.5,
-                }}
-              >
+              <ListItemButton className="flex flex-row items-center gap-3">
                 <Box
-                  sx={{
-                    width: 14,
-                    height: 14,
-                    borderRadius: "50%",
-                    backgroundColor: color,
-                    flexShrink: 0,
-                  }}
+                  className="h-3.5 w-3.5 shrink-0 rounded-full"
+                  style={{ backgroundColor: color }}
                 />
-                <Box
-                  sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "flex-start",
-                  }}
-                >
+                <Box className="flex flex-col items-start">
                   <Typography variant="h6">{category}</Typography>
                   <Typography>{crimesByCategory[category]}</Typography>
                 </Box>
@@ -77,23 +59,18 @@ function SummaryDrawer({ open, handleClick }: SummaryPanelProps) {
   );
 
   return (
-    <Drawer variant="persistent" open={open} sx={{ zIndex: 500 }}>
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "flex-end",
-          mr: 1,
-          mt: 8,
-          padding: "1em",
-          width: "20em",
-        }}
-      >
+    <Drawer
+      variant="persistent"
+      open={open}
+      PaperProps={{ className: "!z-[500]" }}
+    >
+      <Box className="mr-2 mt-16 flex w-[20em] justify-end p-[1em]">
         <IconButton onClick={handleClick}>
           <ChevronLeft></ChevronLeft>
         </IconButton>
       </Box>
       <Box>
-        <List sx={{ width: "100%" }}>{renderCrimesByCategory(crimes)}</List>
+        <List className="w-full">{renderCrimesByCategory(crimes)}</List>
       </Box>
     </Drawer>
   );

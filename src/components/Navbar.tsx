@@ -34,21 +34,16 @@ function Navbar({
   };
 
   return (
-    <AppBar sx={{ position: "static" }}>
-      <Toolbar
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-        }}
-      >
-        <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+    <AppBar className="!static">
+      <Toolbar className="justify-between">
+        <Box className="flex flex-1 md:hidden">
           <IconButton size="large" onClick={handleBarMenuOpen}>
             <MenuIcon></MenuIcon>
           </IconButton>
           <Menu
             open={!!openHamburgerMenu}
             anchorEl={openHamburgerMenu}
-            sx={{ display: { xs: "block", md: "none" } }}
+            slotProps={{ paper: { className: "block md:hidden" } }}
             onClose={handleBarMenuClose}
           >
             <MenuItem
@@ -69,8 +64,8 @@ function Navbar({
             </MenuItem>
           </Menu>
         </Box>
-        <Box sx={{ display: { xs: "none", md: "flex" } }}>
-          <Typography sx={{ mr: 4 }} variant="h6" component="div">
+        <Box className="hidden md:flex">
+          <Typography className="mr-8" variant="h6" component="div">
             crime_scan
           </Typography>
           <Button onClick={toggleSummaryDrawer}>Summary</Button>
