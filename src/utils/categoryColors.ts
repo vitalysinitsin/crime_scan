@@ -6,26 +6,26 @@ const CATEGORY_PALETTE = [
   "#9b59b6",
   "#1abc9c",
   "#e67e22",
-  "#34495e",
+  "#607d8b",
 ];
 
-export const CLUSTER_COLOR = "#607d8b";
+export const CLUSTER_COLOR = "#34495e";
 
 export const buildCategoryColorMap = (
-  categories: string[]
+  categories: string[],
 ): Record<string, string> => {
   return [...categories].sort().reduce(
     (acc, category, index) => {
       acc[category] = CATEGORY_PALETTE[index % CATEGORY_PALETTE.length];
       return acc;
     },
-    {} as Record<string, string>
+    {} as Record<string, string>,
   );
 };
 
 export const getCategoryColor = (
   colorMap: Record<string, string>,
-  category: string
+  category: string,
 ): string => {
   return colorMap[category] ?? CATEGORY_PALETTE[0];
 };

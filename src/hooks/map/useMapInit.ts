@@ -1,6 +1,7 @@
 import "ol/ol.css";
 import { useEffect, useRef } from "react";
-import { Map, Overlay, View } from "ol";
+import { Map as OLMap, Overlay, View } from "ol";
+import type { MapBrowserEvent } from "ol";
 import { Cluster, OSM, Vector } from "ol/source";
 import { fromLonLat } from "ol/proj";
 import VectorLayer from "ol/layer/Vector";
@@ -14,12 +15,12 @@ import {
   allFeaturesInSameSpot,
   generateDefeaultMarkerStyle,
 } from "./utility";
+import { clusterTooltipHtml } from "./clusterTooltipHtml";
 import useCrimesContext from "../../context/CrimesContext";
 import { getCategoryColor, CLUSTER_COLOR } from "../../utils/categoryColors";
 
 const DEFAULT_CENTER = fromLonLat([-79.41636, 43.76681]);
 const DEFAULT_ZOOM = 11;
-const MAXIMUM_NUMBER_OF_LAYERS_FOR_THE_MAP = 2;
 
 const useMapInit = ({
   features,
@@ -28,18 +29,17 @@ const useMapInit = ({
   features?: TorontoMCIFeature[];
   loading?: boolean;
 }) => {
-  const mapInstanceRef = useRef<Map | null>(null);
+  const mapInstanceRef = useRef<OLMap | null>(null);
   const { categoryColorMap } = useCrimesContext();
 
   // initializes the map with tile layers
   useEffect(() => {
     if (!mapInstanceRef.current) {
-      const map = new Map({
+      const map = new OLMap({
         target: "openLayersMap",
         view: new View({ center: DEFAULT_CENTER, zoom: DEFAULT_ZOOM }),
         layers: [new TileLayer({ source: new OSM(), className: "tile-layer" })],
-        // setup for an overlay popup in the future
-        overlays: [new Overlay({})],
+        overlays: [],
       });
 
       mapInstanceRef.current = map;
@@ -52,7 +52,7 @@ const useMapInit = ({
             if (feature.get("features").length > 0) {
               return feature;
             }
-          }
+          },
         );
 
         if (clickedMarker) {
@@ -76,20 +76,17 @@ const useMapInit = ({
           });
         }
       });
-      map.on("pointermove", (e) => {
-        const feature = map.forEachFeatureAtPixel(e.pixel, (f) => f);
-        map.getTargetElement().style.cursor = feature ? "pointer" : "";
-      });
     }
   }, []);
 
   useEffect(() => {
     if (!loading && features && mapInstanceRef.current) {
+      const map = mapInstanceRef.current;
       const OLFeatures = features.map((ftr) => {
         const category = ftr.attributes.CSI_CATEGORY?.trim() || "Unknown";
         const color = getCategoryColor(categoryColorMap, category);
         const point = new Point(
-          fromLonLat([ftr.attributes.LONG_WGS84, ftr.attributes.LAT_WGS84])
+          fromLonLat([ftr.attributes.LONG_WGS84, ftr.attributes.LAT_WGS84]),
         );
         const feature = new Feature({
           geometry: point,
@@ -124,18 +121,66 @@ const useMapInit = ({
         },
       });
 
-      mapInstanceRef.current.addLayer(clusterLayer);
+      map.addLayer(clusterLayer);
+
+      const tooltipEl = document.createElement("div");
+      tooltipEl.className =
+        "pointer-events-none z-50 max-w-xs rounded-lg bg-gray-900/90 px-3 py-2 text-sm text-white shadow-lg";
+      tooltipEl.setAttribute("role", "tooltip");
+
+      const clusterTooltip = new Overlay({
+        element: tooltipEl,
+        positioning: "bottom-center",
+        offset: [0, -12],
+        stopEvent: false,
+      });
+      map.addOverlay(clusterTooltip);
+
+      const hideTooltip = () => {
+        clusterTooltip.setPosition(undefined);
+      };
+
+      const onMoveStart = () => {
+        hideTooltip();
+      };
+
+      const onPointerMove = (e: MapBrowserEvent<PointerEvent>) => {
+        const hit = map.forEachFeatureAtPixel(e.pixel, (f) => f, {
+          layerFilter: (layer) => layer === clusterLayer,
+        });
+        if (hit) {
+          const clusterFeatures: Feature[] = hit.get("features");
+          if (clusterFeatures.length > 1) {
+            clusterTooltip.setPosition(e.coordinate);
+            tooltipEl.innerHTML = clusterTooltipHtml(
+              clusterFeatures,
+              categoryColorMap,
+            );
+          } else {
+            hideTooltip();
+          }
+          map.getTargetElement().style.cursor = "pointer";
+        } else {
+          hideTooltip();
+          map.getTargetElement().style.cursor = "";
+        }
+      };
+
+      map.on("movestart", onMoveStart);
+      map.on("pointermove", onPointerMove);
+
+      return () => {
+        map.un("pointermove", onPointerMove);
+        map.un("movestart", onMoveStart);
+        map.removeOverlay(clusterTooltip);
+        const layers = map.getLayers().getArray();
+        if (layers.length > 1) {
+          layers.pop();
+        }
+      };
     }
 
-    return () => {
-      const layers = mapInstanceRef.current?.getLayers().getArray();
-      if (
-        layers?.length &&
-        layers?.length > MAXIMUM_NUMBER_OF_LAYERS_FOR_THE_MAP
-      ) {
-        layers?.pop();
-      }
-    };
+    return undefined;
   }, [features, loading, categoryColorMap]);
 };
 
