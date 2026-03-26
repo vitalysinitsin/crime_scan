@@ -7,21 +7,21 @@ import { Feature, Map } from "ol";
 import { createEmpty, extend } from "ol/extent";
 import { SimpleGeometry } from "ol/geom";
 
-export const generateDefeaultMarkerStyle = () => {
+export const generateDefeaultMarkerStyle = (color: string) => {
   return new Style({
     image: new Circle({
       radius: 12,
-      fill: new Fill({ color: "rgb(70, 70, 255)" }),
+      fill: new Fill({ color }),
       stroke: new Stroke({ color: "white", width: 2 }),
     }),
   });
 };
 
-export const generateDefaultClusterStyle = (size: number) => {
+export const generateDefaultClusterStyle = (size: number, color: string) => {
   return new Style({
     image: new Circle({
       radius: 15,
-      fill: new Fill({ color: "rgb(70, 70, 255)" }),
+      fill: new Fill({ color }),
       stroke: new Stroke({ color: "white", width: 2 }),
     }),
     text: new Text({

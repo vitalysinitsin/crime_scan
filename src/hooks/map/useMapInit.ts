@@ -7,13 +7,15 @@ import VectorLayer from "ol/layer/Vector";
 import { Point } from "ol/geom";
 import Feature from "ol/Feature";
 import TileLayer from "ol/layer/Tile";
-import { IFeature } from "@esri/arcgis-rest-request";
+import { TorontoMCIFeature } from "../../models/feature";
 import {
   fitTheMapViewToDisplayFeatures,
   generateDefaultClusterStyle,
   allFeaturesInSameSpot,
   generateDefeaultMarkerStyle,
 } from "./utility";
+import useCrimesContext from "../../context/CrimesContext";
+import { getCategoryColor, CLUSTER_COLOR } from "../../utils/categoryColors";
 
 const DEFAULT_CENTER = fromLonLat([-79.41636, 43.76681]);
 const DEFAULT_ZOOM = 11;
@@ -23,10 +25,11 @@ const useMapInit = ({
   features,
   loading,
 }: {
-  features?: IFeature[];
+  features?: TorontoMCIFeature[];
   loading?: boolean;
 }) => {
   const mapInstanceRef = useRef<Map | null>(null);
+  const { categoryColorMap } = useCrimesContext();
 
   // initializes the map with tile layers
   useEffect(() => {
@@ -83,13 +86,17 @@ const useMapInit = ({
   useEffect(() => {
     if (!loading && features && mapInstanceRef.current) {
       const OLFeatures = features.map((ftr) => {
+        const category = ftr.attributes.CSI_CATEGORY?.trim() || "Unknown";
+        const color = getCategoryColor(categoryColorMap, category);
         const point = new Point(
           fromLonLat([ftr.attributes.LONG_WGS84, ftr.attributes.LAT_WGS84])
         );
         const feature = new Feature({
           geometry: point,
           name: ftr.attributes.EVENT_UNIQUE_ID,
-          style: generateDefeaultMarkerStyle(),
+          category,
+          color,
+          style: generateDefeaultMarkerStyle(color),
         });
         return feature;
       });
@@ -107,12 +114,13 @@ const useMapInit = ({
         source: clusterSource,
         className: "vector-layer",
         style: (feature) => {
-          const size = feature.get("features").length;
-          let style = generateDefeaultMarkerStyle();
+          const clusterFeatures: Feature[] = feature.get("features");
+          const size = clusterFeatures.length;
           if (size > 1) {
-            style = generateDefaultClusterStyle(size);
+            return generateDefaultClusterStyle(size, CLUSTER_COLOR);
           }
-          return style;
+          const color = clusterFeatures[0]?.get("color") ?? CLUSTER_COLOR;
+          return generateDefeaultMarkerStyle(color);
         },
       });
 
@@ -128,7 +136,7 @@ const useMapInit = ({
         layers?.pop();
       }
     };
-  }, [features, loading]);
+  }, [features, loading, categoryColorMap]);
 };
 
 export default useMapInit;
