@@ -51,7 +51,7 @@ function Navbar({ toggleFilterDrawer, year }: NavbarProps) {
             </MenuItem>
           </Menu>
         </Box>
-        <Box className="hidden md:flex">
+        <Box className="hidden md:flex gap-4">
           <Typography className="mr-8" variant="h6" component="div">
             crime_scan
           </Typography>
