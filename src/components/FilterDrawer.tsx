@@ -14,10 +14,9 @@ import {
   Select,
   Typography,
 } from "@mui/material";
-import { useCallback, useMemo } from "react";
+import { useMemo } from "react";
 import { QueryFilter } from "../App";
 import useCrimesContext from "../context/CrimesContext";
-import { TorontoMCIFeature } from "../models/feature";
 import { getCategoryColor } from "../utils/categoryColors";
 
 interface FilterDrawerProps {
@@ -52,20 +51,16 @@ function FilterDrawer({
     });
   };
 
-  const getCrimeCountsByCategory = useCallback((items: TorontoMCIFeature[]) => {
-    return items.reduce<Record<string, number>>((acc, current) => {
-      const category = current.attributes.CSI_CATEGORY?.trim() || "Unknown";
-      return {
-        ...acc,
-        [category]: acc[category] ? acc[category] + 1 : 1,
-      };
-    }, {});
-  }, []);
+  const crimeCountsByCategory = useMemo(() => {
+    const counts: Record<string, number> = {};
 
-  const crimeCountsByCategory = useMemo(
-    () => getCrimeCountsByCategory(crimes),
-    [crimes, getCrimeCountsByCategory],
-  );
+    for (const crime of crimes) {
+      const category = crime.attributes.CSI_CATEGORY?.trim() || "Unknown";
+      counts[category] = (counts[category] ?? 0) + 1;
+    }
+
+    return counts;
+  }, [crimes]);
 
   return (
     <Drawer
