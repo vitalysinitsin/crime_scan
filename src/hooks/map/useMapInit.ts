@@ -84,6 +84,8 @@ const useMapInit = ({
   useEffect(() => {
     if (!loading && features && mapInstanceRef.current) {
       const map = mapInstanceRef.current;
+      const selectedCategories = new Set(selectedMarkerTypes ?? []);
+      const hasCategoryFilter = selectedCategories.size > 0;
       const OLFeatures = features.map((ftr) => {
         const category = ftr.attributes.CSI_CATEGORY?.trim() || "Unknown";
         const color = getCategoryColor(categoryColorMap, category);
@@ -107,6 +109,14 @@ const useMapInit = ({
       const clusterSource = new Cluster({
         source: vectorSource,
         distance: 75,
+        geometryFunction: (feature) => {
+          const geometry = feature.getGeometry();
+          if (!geometry) return null;
+          if (!hasCategoryFilter) return geometry;
+
+          const category = feature.get("category");
+          return selectedCategories.has(category) ? geometry : null;
+        },
       });
 
       const clusterLayer = new VectorLayer({
