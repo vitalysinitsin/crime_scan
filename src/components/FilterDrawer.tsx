@@ -1,4 +1,4 @@
-import { ChevronLeft } from "@mui/icons-material";
+import { ChevronRight } from "@mui/icons-material";
 import {
   Box,
   Checkbox,
@@ -64,13 +64,14 @@ function FilterDrawer({
 
   return (
     <Drawer
+      anchor="right"
       variant="persistent"
       open={open}
       PaperProps={{ className: "!z-[500]" }}
     >
-      <Box className="mr-2 mt-16 flex w-[20em] justify-end p-[1em]">
-        <IconButton onClick={handleClick}>
-          <ChevronLeft></ChevronLeft>
+      <Box className="ml-2 mt-16 flex w-[20em] justify-start p-[1em]">
+        <IconButton onClick={handleClick} aria-label="Close filters">
+          <ChevronRight />
         </IconButton>
       </Box>
       <Box className="p-[1em]">
@@ -103,7 +104,6 @@ function FilterDrawer({
             <MenuItem value={2025}>2025</MenuItem>
           </Select>
         </FormControl>
-
         <List dense className="mt-4 w-full">
           {categories.map((category) => {
             const isSelected = selectedMarkerTypes.includes(category);

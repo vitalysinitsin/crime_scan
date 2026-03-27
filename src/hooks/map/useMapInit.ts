@@ -19,7 +19,7 @@ import { clusterTooltipHtml } from "./clusterTooltipHtml";
 import useCrimesContext from "../../context/CrimesContext";
 import { getCategoryColor, CLUSTER_COLOR } from "../../utils/categoryColors";
 
-const DEFAULT_CENTER = fromLonLat([-79.41636, 43.76681]);
+const DEFAULT_CENTER = fromLonLat([-79.30636, 43.70881]);
 const DEFAULT_ZOOM = 11;
 
 const useMapInit = ({

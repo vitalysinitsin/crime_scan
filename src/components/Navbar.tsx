@@ -13,10 +13,9 @@ import { useState } from "react";
 
 interface NavbarProps {
   toggleFilterDrawer: () => void;
-  year: number;
 }
 
-function Navbar({ toggleFilterDrawer, year }: NavbarProps) {
+function Navbar({ toggleFilterDrawer }: NavbarProps) {
   const [openHamburgerMenu, setOpenHamburgerMenu] =
     useState<null | HTMLElement>(null);
 
@@ -30,36 +29,48 @@ function Navbar({ toggleFilterDrawer, year }: NavbarProps) {
 
   return (
     <AppBar className="static!">
-      <Toolbar className="justify-between">
-        <Box className="flex flex-1 md:hidden">
-          <IconButton size="large" onClick={handleBarMenuOpen}>
-            <MenuIcon></MenuIcon>
-          </IconButton>
-          <Menu
-            open={!!openHamburgerMenu}
-            anchorEl={openHamburgerMenu}
-            slotProps={{ paper: { className: "block md:hidden" } }}
-            onClose={handleBarMenuClose}
-          >
-            <MenuItem
-              onClick={() => {
-                toggleFilterDrawer();
-                handleBarMenuClose();
-              }}
-            >
-              <Typography>Filter</Typography>
-            </MenuItem>
-          </Menu>
-        </Box>
-        <Box className="hidden md:flex gap-4">
-          <Typography className="mr-8" variant="h6" component="div">
-            crime_scan
-          </Typography>
-          <Button onClick={toggleFilterDrawer}>Filter</Button>
-        </Box>
-        <Typography variant="body1" component="span">
-          Toronto Crimes in: {year}
+      <Toolbar className="justify-between gap-4" disableGutters sx={{ px: 2 }}>
+        <Typography className="min-w-0 shrink" variant="h6" component="div">
+          crime_scan
         </Typography>
+
+        <Box className="flex shrink-0 items-center">
+          <Box className="lg:hidden">
+            <IconButton
+              size="large"
+              edge="end"
+              aria-label="Open menu"
+              onClick={handleBarMenuOpen}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Menu
+              open={!!openHamburgerMenu}
+              anchorEl={openHamburgerMenu}
+              slotProps={{ paper: { className: "lg:hidden" } }}
+              onClose={handleBarMenuClose}
+              anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+              transformOrigin={{ vertical: "top", horizontal: "right" }}
+            >
+              <MenuItem
+                onClick={() => {
+                  toggleFilterDrawer();
+                  handleBarMenuClose();
+                }}
+              >
+                Filter
+              </MenuItem>
+              <MenuItem disabled>
+                <Typography variant="body2" color="text.secondary">
+                  More
+                </Typography>
+              </MenuItem>
+            </Menu>
+          </Box>
+          <Button className="hidden! lg:flex!" onClick={toggleFilterDrawer}>
+            Filter
+          </Button>
+        </Box>
       </Toolbar>
     </AppBar>
   );

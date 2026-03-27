@@ -20,10 +20,7 @@ function App() {
 
   return (
     <div>
-      <Navbar
-        toggleFilterDrawer={toggleFilterDrawer}
-        year={queryFilter.OCC_YEAR}
-      />
+      <Navbar toggleFilterDrawer={toggleFilterDrawer} />
       <MapComponent
         queryFilter={queryFilter}
         selectedMarkerTypes={selectedMarkerTypes}
