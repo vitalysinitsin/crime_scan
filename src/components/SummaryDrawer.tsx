@@ -48,37 +48,22 @@ function SummaryDrawer({
     });
   };
 
-  const renderCrimesByCategory = useCallback(
+  const getCrimeCountsByCategory = useCallback(
     (crimes: TorontoMCIFeature[]) => {
-      const crimesByCategory = crimes.reduce((acc: SummaryList, current) => {
+      return crimes.reduce((acc: SummaryList, current) => {
         const category = current.attributes.CSI_CATEGORY?.trim() || "Unknown";
         return {
           ...acc,
           [category]: acc[category] ? acc[category] + 1 : 1,
         };
       }, {});
-
-      return Object.keys(crimesByCategory)
-        .sort()
-        .map((category) => {
-          const color = getCategoryColor(categoryColorMap, category);
-          return (
-            <ListItem key={category}>
-              <ListItemButton className="flex flex-row items-center gap-3">
-                <Box
-                  className="h-3.5 w-3.5 shrink-0 rounded-full"
-                  style={{ backgroundColor: color }}
-                />
-                <Box className="flex flex-col items-start">
-                  <Typography variant="h6">{category}</Typography>
-                  <Typography>{crimesByCategory[category]}</Typography>
-                </Box>
-              </ListItemButton>
-            </ListItem>
-          );
-        });
     },
-    [categoryColorMap],
+    [],
+  );
+
+  const crimeCountsByCategory = useMemo(
+    () => getCrimeCountsByCategory(crimes),
+    [crimes, getCrimeCountsByCategory],
   );
 
   return (
@@ -97,6 +82,7 @@ function SummaryDrawer({
           {categories.map((category) => {
             const isSelected = selectedMarkerTypes.includes(category);
             const color = getCategoryColor(categoryColorMap, category);
+            const count = crimeCountsByCategory[category] ?? 0;
 
             return (
               <ListItem key={category} disablePadding>
@@ -116,8 +102,12 @@ function SummaryDrawer({
                     className="h-3.5 w-3.5 shrink-0 rounded-full"
                     style={{ backgroundColor: color }}
                   />
-                  <Box className="flex flex-col items-start">
-                    <Typography variant="body2">{category}</Typography>
+                  <Box className="flex items-center">
+                    <Typography variant="body1">{category}</Typography>
+                    <span className="mx-2">-</span>
+                    <Typography variant="body1" className="!font-bold">
+                      {count}
+                    </Typography>
                   </Box>
                 </ListItemButton>
               </ListItem>
@@ -137,10 +127,6 @@ function SummaryDrawer({
       </Box>
 
       <Divider />
-
-      <Box>
-        <List className="w-full">{renderCrimesByCategory(crimes)}</List>
-      </Box>
     </Drawer>
   );
 }
