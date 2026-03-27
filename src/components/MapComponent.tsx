@@ -5,11 +5,12 @@ import { QueryFilter } from "../App";
 
 interface MapComponentProps {
   queryFilter: QueryFilter;
+  selectedMarkerTypes: string[];
 }
 
-function MapComponent({ queryFilter }: MapComponentProps) {
+function MapComponent({ queryFilter, selectedMarkerTypes }: MapComponentProps) {
   const { features, loading } = usePaginatedQuery(queryFilter);
-  useMapInit({ features, loading });
+  useMapInit({ features, loading, selectedMarkerTypes });
 
   return (
     <div>

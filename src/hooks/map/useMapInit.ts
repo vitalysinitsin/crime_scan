@@ -25,9 +25,11 @@ const DEFAULT_ZOOM = 11;
 const useMapInit = ({
   features,
   loading,
+  selectedMarkerTypes,
 }: {
   features?: TorontoMCIFeature[];
   loading?: boolean;
+  selectedMarkerTypes?: string[];
 }) => {
   const mapInstanceRef = useRef<OLMap | null>(null);
   const { categoryColorMap } = useCrimesContext();
@@ -181,7 +183,7 @@ const useMapInit = ({
     }
 
     return undefined;
-  }, [features, loading, categoryColorMap]);
+  }, [features, loading, categoryColorMap, selectedMarkerTypes]);
 };
 
 export default useMapInit;
