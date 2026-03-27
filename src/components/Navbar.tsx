@@ -12,16 +12,11 @@ import { Menu as MenuIcon } from "@mui/icons-material";
 import { useState } from "react";
 
 interface NavbarProps {
-  toggleSummaryDrawer: () => void;
   toggleFilterDrawer: () => void;
   year: number;
 }
 
-function Navbar({
-  toggleFilterDrawer,
-  toggleSummaryDrawer,
-  year,
-}: NavbarProps) {
+function Navbar({ toggleFilterDrawer, year }: NavbarProps) {
   const [openHamburgerMenu, setOpenHamburgerMenu] =
     useState<null | HTMLElement>(null);
 
@@ -34,7 +29,7 @@ function Navbar({
   };
 
   return (
-    <AppBar className="!static">
+    <AppBar className="static!">
       <Toolbar className="justify-between">
         <Box className="flex flex-1 md:hidden">
           <IconButton size="large" onClick={handleBarMenuOpen}>
@@ -46,14 +41,6 @@ function Navbar({
             slotProps={{ paper: { className: "block md:hidden" } }}
             onClose={handleBarMenuClose}
           >
-            <MenuItem
-              onClick={() => {
-                toggleSummaryDrawer();
-                handleBarMenuClose();
-              }}
-            >
-              <Typography>Summary</Typography>
-            </MenuItem>
             <MenuItem
               onClick={() => {
                 toggleFilterDrawer();
@@ -68,7 +55,6 @@ function Navbar({
           <Typography className="mr-8" variant="h6" component="div">
             crime_scan
           </Typography>
-          <Button onClick={toggleSummaryDrawer}>Summary</Button>
           <Button onClick={toggleFilterDrawer}>Filter</Button>
         </Box>
         <Typography variant="body1" component="span">
