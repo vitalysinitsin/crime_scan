@@ -78,7 +78,7 @@ function SummaryDrawer({
           );
         });
     },
-    [categoryColorMap]
+    [categoryColorMap],
   );
 
   return (
@@ -93,7 +93,6 @@ function SummaryDrawer({
         </IconButton>
       </Box>
       <Box className="px-[1em]">
-        <Typography variant="subtitle1">Marker Types</Typography>
         <List dense className="w-full">
           {categories.map((category) => {
             const isSelected = selectedMarkerTypes.includes(category);
