@@ -1,11 +1,10 @@
 import { ChevronRight } from "@mui/icons-material";
 import {
   Box,
+  Button,
   Checkbox,
-  Divider,
   Drawer,
   FormControl,
-  IconButton,
   InputLabel,
   List,
   ListItem,
@@ -69,12 +68,12 @@ function FilterDrawer({
       open={open}
       PaperProps={{ className: "!z-[500]" }}
     >
-      <Box className="ml-2 mt-16 flex w-[20em] justify-start p-[1em]">
-        <IconButton onClick={handleClick} aria-label="Close filters">
+      <Box className="fixed top-16 right-75 h-max w-max p-1 bg-[#121212]">
+        <Button onClick={handleClick} aria-label="Close filters">
           <ChevronRight />
-        </IconButton>
+        </Button>
       </Box>
-      <Box className="p-[1em]">
+      <Box className="p-[1em] pt-24">
         <FormControl fullWidth>
           <InputLabel id="filter-year-select-label">Year</InputLabel>
           <Select
@@ -89,19 +88,17 @@ function FilterDrawer({
               }))
             }
           >
-            <MenuItem value={2013}>2013</MenuItem>
-            <MenuItem value={2014}>2014</MenuItem>
-            <MenuItem value={2015}>2015</MenuItem>
-            <MenuItem value={2016}>2016</MenuItem>
-            <MenuItem value={2017}>2017</MenuItem>
-            <MenuItem value={2018}>2018</MenuItem>
-            <MenuItem value={2019}>2019</MenuItem>
-            <MenuItem value={2020}>2020</MenuItem>
-            <MenuItem value={2021}>2021</MenuItem>
-            <MenuItem value={2022}>2022</MenuItem>
-            <MenuItem value={2023}>2023</MenuItem>
-            <MenuItem value={2024}>2024</MenuItem>
             <MenuItem value={2025}>2025</MenuItem>
+            <MenuItem value={2024}>2024</MenuItem>
+            <MenuItem value={2023}>2023</MenuItem>
+            <MenuItem value={2022}>2022</MenuItem>
+            <MenuItem value={2021}>2021</MenuItem>
+            <MenuItem value={2020}>2020</MenuItem>
+            <MenuItem value={2019}>2019</MenuItem>
+            <MenuItem value={2018}>2018</MenuItem>
+            <MenuItem value={2017}>2017</MenuItem>
+            <MenuItem value={2016}>2016</MenuItem>
+            <MenuItem value={2015}>2015</MenuItem>
           </Select>
         </FormControl>
         <List dense className="mt-4 w-full">
@@ -151,8 +148,6 @@ function FilterDrawer({
           </Typography>
         ) : null}
       </Box>
-
-      <Divider />
     </Drawer>
   );
 }
