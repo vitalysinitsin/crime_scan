@@ -86,20 +86,44 @@ const useMapInit = ({
       const map = mapInstanceRef.current;
       const selectedCategories = new Set(selectedMarkerTypes ?? []);
       const hasCategoryFilter = selectedCategories.size > 0;
-      const OLFeatures = features.map((ftr) => {
-        const category = ftr.attributes.CSI_CATEGORY?.trim() || "Unknown";
+      const OLFeatures = features.map((torontoFeature) => {
+        const mciAttributes = torontoFeature.attributes;
+        const category =
+          mciAttributes.CSI_CATEGORY?.trim() || "Unknown";
         const color = getCategoryColor(categoryColorMap, category);
         const point = new Point(
-          fromLonLat([ftr.attributes.LONG_WGS84, ftr.attributes.LAT_WGS84]),
+          fromLonLat([mciAttributes.LONG_WGS84, mciAttributes.LAT_WGS84]),
         );
-        const feature = new Feature({
+        const openLayersFeature = new Feature({
           geometry: point,
-          name: ftr.attributes.EVENT_UNIQUE_ID,
+          name: mciAttributes.EVENT_UNIQUE_ID,
           category,
           color,
           style: generateDefeaultMarkerStyle(color),
+          // Toronto MCI display fields for detailed marker / same-spot tooltips
+          CSI_CATEGORY: mciAttributes.CSI_CATEGORY ?? "",
+          OFFENCE: mciAttributes.OFFENCE ?? "",
+          UCR_CODE: mciAttributes.UCR_CODE ?? "",
+          UCR_EXT: mciAttributes.UCR_EXT ?? "",
+          OCC_DATE: mciAttributes.OCC_DATE,
+          OCC_DAY: mciAttributes.OCC_DAY ?? "",
+          OCC_DOW: mciAttributes.OCC_DOW ?? "",
+          OCC_DOY: mciAttributes.OCC_DOY ?? "",
+          OCC_HOUR: mciAttributes.OCC_HOUR ?? "",
+          OCC_MONTH: mciAttributes.OCC_MONTH ?? "",
+          OCC_YEAR: mciAttributes.OCC_YEAR ?? "",
+          LOCATION_TYPE: mciAttributes.LOCATION_TYPE ?? "",
+          PREMISES_TYPE: mciAttributes.PREMISES_TYPE ?? "",
+          NEIGHBOURHOOD_140: mciAttributes.NEIGHBOURHOOD_140 ?? "",
+          NEIGHBOURHOOD_158: mciAttributes.NEIGHBOURHOOD_158 ?? "",
+          HOOD_140: mciAttributes.HOOD_140 ?? "",
+          HOOD_158: mciAttributes.HOOD_158 ?? "",
+          LAT_WGS84: mciAttributes.LAT_WGS84,
+          LONG_WGS84: mciAttributes.LONG_WGS84,
+          EVENT_UNIQUE_ID: mciAttributes.EVENT_UNIQUE_ID ?? "",
+          DIVISION: mciAttributes.DIVISION ?? "",
         });
-        return feature;
+        return openLayersFeature;
       });
 
       const vectorSource = new Vector({
@@ -156,14 +180,18 @@ const useMapInit = ({
         hideTooltip();
       };
 
-      const onPointerMove = (e: MapBrowserEvent<PointerEvent>) => {
-        const hit = map.forEachFeatureAtPixel(e.pixel, (f) => f, {
-          layerFilter: (layer) => layer === clusterLayer,
-        });
+      const onPointerMove = (mapBrowserEvent: MapBrowserEvent<PointerEvent>) => {
+        const hit = map.forEachFeatureAtPixel(
+          mapBrowserEvent.pixel,
+          (hitFeature) => hitFeature,
+          {
+            layerFilter: (mapLayer) => mapLayer === clusterLayer,
+          },
+        );
         if (hit) {
           const clusterFeatures: Feature[] = hit.get("features");
           if (clusterFeatures.length > 1) {
-            clusterTooltip.setPosition(e.coordinate);
+            clusterTooltip.setPosition(mapBrowserEvent.coordinate);
             tooltipEl.innerHTML = clusterTooltipHtml(
               clusterFeatures,
               categoryColorMap,
