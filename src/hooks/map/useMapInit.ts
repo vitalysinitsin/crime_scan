@@ -15,12 +15,24 @@ import {
   allFeaturesInSameSpot,
   generateDefeaultMarkerStyle,
 } from "./utility";
-import { clusterTooltipHtml } from "./clusterTooltipHtml";
+import {
+  clusterTooltipHtml,
+  compactMarkerTooltipHtml,
+  multiSameSpotTooltipHtml,
+} from "./clusterTooltipHtml";
 import useCrimesContext from "../../context/CrimesContext";
 import { getCategoryColor, CLUSTER_COLOR } from "../../utils/categoryColors";
 
 const DEFAULT_CENTER = fromLonLat([-79.30636, 43.70681]);
 const DEFAULT_ZOOM = 11;
+
+const TOOLTIP_SHELL_BASE =
+  "z-50 rounded-lg bg-gray-900/90 px-3 py-2 text-sm text-white shadow-lg";
+/** Narrow overlay; map keeps receiving moves outside the tooltip. */
+const TOOLTIP_SHELL_SINGLE = `${TOOLTIP_SHELL_BASE} pointer-events-none max-w-xs min-w-0`;
+const TOOLTIP_SHELL_CATEGORY = `${TOOLTIP_SHELL_BASE} pointer-events-none max-w-60 min-w-0`;
+/** Wide strip so multiple same-spot cards can scroll horizontally; wheel/touch hit the tooltip. */
+const TOOLTIP_SHELL_SAME_SPOT = `${TOOLTIP_SHELL_BASE} pointer-events-auto max-w-[min(100vw-1.5rem,56rem)] min-w-0`;
 
 const useMapInit = ({
   features,
@@ -160,8 +172,7 @@ const useMapInit = ({
       map.addLayer(clusterLayer);
 
       const tooltipEl = document.createElement("div");
-      tooltipEl.className =
-        "pointer-events-none z-50 max-w-xs rounded-lg bg-gray-900/90 px-3 py-2 text-sm text-white shadow-lg";
+      tooltipEl.className = TOOLTIP_SHELL_CATEGORY;
       tooltipEl.setAttribute("role", "tooltip");
 
       const clusterTooltip = new Overlay({
@@ -190,14 +201,26 @@ const useMapInit = ({
         );
         if (hit) {
           const clusterFeatures: Feature[] = hit.get("features");
-          if (clusterFeatures.length > 1) {
-            clusterTooltip.setPosition(mapBrowserEvent.coordinate);
-            tooltipEl.innerHTML = clusterTooltipHtml(
+          const n = clusterFeatures.length;
+          clusterTooltip.setPosition(mapBrowserEvent.coordinate);
+          if (n === 1) {
+            tooltipEl.className = TOOLTIP_SHELL_SINGLE;
+            tooltipEl.innerHTML = compactMarkerTooltipHtml(
+              clusterFeatures[0],
+              categoryColorMap,
+            );
+          } else if (allFeaturesInSameSpot(clusterFeatures)) {
+            tooltipEl.className = TOOLTIP_SHELL_SAME_SPOT;
+            tooltipEl.innerHTML = multiSameSpotTooltipHtml(
               clusterFeatures,
               categoryColorMap,
             );
           } else {
-            hideTooltip();
+            tooltipEl.className = TOOLTIP_SHELL_CATEGORY;
+            tooltipEl.innerHTML = clusterTooltipHtml(
+              clusterFeatures,
+              categoryColorMap,
+            );
           }
           map.getTargetElement().style.cursor = "pointer";
         } else {
