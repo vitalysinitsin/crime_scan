@@ -1,16 +1,23 @@
 import LoadingModal from "./LoadingModal";
-import useMapInit from "../hooks/map/useMapInit";
+import useMapInit, {
+  OnIncidentSelect,
+} from "../hooks/map/useMapInit";
 import usePaginatedQuery from "../api/canada/toronto/usePaginatedCrimesQuery";
 import { QueryFilter } from "../App";
 
 interface MapComponentProps {
   queryFilter: QueryFilter;
   selectedMarkerTypes: string[];
+  onIncidentSelect?: OnIncidentSelect;
 }
 
-function MapComponent({ queryFilter, selectedMarkerTypes }: MapComponentProps) {
+function MapComponent({
+  queryFilter,
+  selectedMarkerTypes,
+  onIncidentSelect,
+}: MapComponentProps) {
   const { features, loading } = usePaginatedQuery(queryFilter);
-  useMapInit({ features, loading, selectedMarkerTypes });
+  useMapInit({ features, loading, selectedMarkerTypes, onIncidentSelect });
 
   return (
     <div>

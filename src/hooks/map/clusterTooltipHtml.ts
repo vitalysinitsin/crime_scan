@@ -60,8 +60,8 @@ export function compactMarkerTooltipHtml(
 
   return `
     <div class="max-w-52 shrink-0 rounded border border-white/10 bg-white/5 px-2 py-1.5">
-      <div class="flex min-w-0 items-start gap-1.5">
-        <span class="mt-0.5 h-2 w-2 shrink-0 rounded-full" style="background-color:${escapeHtml(color)}"></span>
+      <div class="flex min-w-0 items-center gap-1.5">
+        <span class="h-2 w-2 shrink-0 rounded-full" style="background-color:${escapeHtml(color)}"></span>
         <div class="min-w-0 flex-1 space-y-0.5">
           <div class="text-[0.75rem] font-medium leading-tight text-white">${escapeHtml(category)}</div>
           ${whenBlock}

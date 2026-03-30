@@ -70,7 +70,7 @@ function FilterDrawer({
     >
       <Box className="fixed top-16 right-75 h-max w-max p-1 bg-[#121212]">
         <Button onClick={handleClick} aria-label="Close filters">
-          <ChevronRight />
+          <ChevronRight className="text-white" />
         </Button>
       </Box>
       <Box className="p-[1em] pt-24">
