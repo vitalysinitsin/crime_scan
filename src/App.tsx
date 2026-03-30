@@ -48,6 +48,7 @@ function App() {
       <MapComponent
         queryFilter={queryFilter}
         selectedMarkerTypes={selectedMarkerTypes}
+        selectedIncidents={selectedIncidents}
         onIncidentSelect={handleIncidentSelect}
       />
       <IncidentDetailDrawer

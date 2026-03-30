@@ -46,11 +46,13 @@ const useMapInit = ({
   features,
   loading,
   selectedMarkerTypes,
+  selectedIncidents,
   onIncidentSelect,
 }: {
   features?: TorontoMCIFeature[];
   loading?: boolean;
   selectedMarkerTypes?: string[];
+  selectedIncidents?: TorontoMCIFeatureAttributes[] | null;
   onIncidentSelect?: OnIncidentSelect;
 }) => {
   const mapInstanceRef = useRef<OLMap | null>(null);
@@ -264,7 +266,13 @@ const useMapInit = ({
     }
 
     return undefined;
-  }, [features, loading, categoryColorMap, selectedMarkerTypes]);
+  }, [
+    features,
+    loading,
+    categoryColorMap,
+    selectedMarkerTypes,
+    selectedIncidents,
+  ]);
 };
 
 export default useMapInit;
