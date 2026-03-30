@@ -8,13 +8,17 @@ import VectorLayer from "ol/layer/Vector";
 import { Point } from "ol/geom";
 import Feature from "ol/Feature";
 import TileLayer from "ol/layer/Tile";
-import { TorontoMCIFeature } from "../../models/feature";
+import {
+  TorontoMCIFeature,
+  TorontoMCIFeatureAttributes,
+} from "../../models/feature";
 import {
   fitTheMapViewToDisplayFeatures,
   generateDefaultClusterStyle,
   allFeaturesInSameSpot,
   generateDefeaultMarkerStyle,
 } from "./utility";
+import { openLayersFeatureToAttributes } from "./openLayersFeatureToAttributes";
 import {
   clusterTooltipHtml,
   compactMarkerTooltipHtml,
@@ -34,17 +38,25 @@ const TOOLTIP_SHELL_CATEGORY = `${TOOLTIP_SHELL_BASE} pointer-events-none max-w-
 /** Wide strip so multiple same-spot cards can scroll horizontally; wheel/touch hit the tooltip. */
 const TOOLTIP_SHELL_SAME_SPOT = `${TOOLTIP_SHELL_BASE} pointer-events-auto max-w-[min(100vw-1.5rem,56rem)] min-w-0`;
 
+export type OnIncidentSelect = (
+  incidents: TorontoMCIFeatureAttributes[] | null,
+) => void;
+
 const useMapInit = ({
   features,
   loading,
   selectedMarkerTypes,
+  onIncidentSelect,
 }: {
   features?: TorontoMCIFeature[];
   loading?: boolean;
   selectedMarkerTypes?: string[];
+  onIncidentSelect?: OnIncidentSelect;
 }) => {
   const mapInstanceRef = useRef<OLMap | null>(null);
   const { categoryColorMap } = useCrimesContext();
+  const onIncidentSelectRef = useRef<OnIncidentSelect | undefined>(undefined);
+  onIncidentSelectRef.current = onIncidentSelect;
 
   // initializes the map with tile layers
   useEffect(() => {
@@ -57,39 +69,6 @@ const useMapInit = ({
       });
 
       mapInstanceRef.current = map;
-
-      // interactions
-      map.on("click", (event) => {
-        const clickedMarker = map.forEachFeatureAtPixel(
-          event.pixel,
-          (feature) => {
-            if (feature.get("features").length > 0) {
-              return feature;
-            }
-          },
-        );
-
-        if (clickedMarker) {
-          const clickedFeatures: Feature[] = clickedMarker.get("features");
-
-          if (clickedFeatures.length > 1) {
-            if (!allFeaturesInSameSpot(clickedFeatures)) {
-              fitTheMapViewToDisplayFeatures(clickedFeatures, map);
-            }
-            // display the summary of the cluster info here
-            console.log("cluster", clickedFeatures);
-          } else {
-            // display the summary of the single feature here
-            console.log("single", clickedFeatures);
-          }
-        } else {
-          map.getView().animate({
-            center: DEFAULT_CENTER,
-            zoom: DEFAULT_ZOOM,
-            duration: 400,
-          });
-        }
-      });
     }
   }, []);
 
@@ -229,10 +208,51 @@ const useMapInit = ({
         }
       };
 
+      const onMapClick = (event: MapBrowserEvent<PointerEvent | MouseEvent>) => {
+        const notify = onIncidentSelectRef.current;
+        const clickedMarker = map.forEachFeatureAtPixel(
+          event.pixel,
+          (hitFeature) => {
+            const inner = hitFeature.get("features") as Feature[] | undefined;
+            if (inner && inner.length > 0) return hitFeature;
+            return undefined;
+          },
+          { layerFilter: (mapLayer) => mapLayer === clusterLayer },
+        );
+
+        if (clickedMarker) {
+          const clickedFeatures: Feature[] = clickedMarker.get("features");
+
+          if (clickedFeatures.length > 1) {
+            if (!allFeaturesInSameSpot(clickedFeatures)) {
+              fitTheMapViewToDisplayFeatures(clickedFeatures, map);
+              notify?.(null);
+            } else {
+              notify?.(
+                clickedFeatures.map((f) => openLayersFeatureToAttributes(f)),
+              );
+            }
+          } else {
+            notify?.(
+              clickedFeatures.map((f) => openLayersFeatureToAttributes(f)),
+            );
+          }
+        } else {
+          map.getView().animate({
+            center: DEFAULT_CENTER,
+            zoom: DEFAULT_ZOOM,
+            duration: 400,
+          });
+          notify?.(null);
+        }
+      };
+
       map.on("movestart", onMoveStart);
       map.on("pointermove", onPointerMove);
+      map.on("click", onMapClick);
 
       return () => {
+        map.un("click", onMapClick);
         map.un("pointermove", onPointerMove);
         map.un("movestart", onMoveStart);
         map.removeOverlay(clusterTooltip);
