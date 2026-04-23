@@ -1,7 +1,5 @@
 import LoadingModal from "./LoadingModal";
-import useMapInit, {
-  OnIncidentSelect,
-} from "../hooks/map/useMapInit";
+import useMapInit, { OnIncidentSelect } from "../hooks/map/useMapInit";
 import usePaginatedQuery from "../api/canada/toronto/usePaginatedCrimesQuery";
 import { QueryFilter } from "../App";
 import { TorontoMCIFeatureAttributes } from "../models/feature";
@@ -31,7 +29,10 @@ function MapComponent({
   return (
     <div>
       <div id="openLayersMap" style={{ height: "100%" }} className="map" />
-      <LoadingModal open={loading} />
+      <LoadingModal
+        open={loading}
+        customText={`Gathering all crime data in ${queryFilter.OCC_YEAR}. Currently loaded: ${features.length}`}
+      />
     </div>
   );
 }
